@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 class Game extends Component {
   render() {
@@ -9,12 +9,13 @@ class Game extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+// const mapStateToProps = (state) => ({
 
-});
+// });
 
-const mapDispatchToProps = {
+// const mapDispatchToProps = {
 
-};
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+// export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default Game;
