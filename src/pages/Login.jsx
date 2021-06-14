@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchToken } from '../redux/actions';
+import PropTypes from 'prop-types';
+import { addUserInfo, fetchToken } from '../redux/actions';
 
 class Login extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class Login extends Component {
     };
     this.verifyLogin = this.verifyLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   // componentDidMount() {
@@ -20,6 +22,13 @@ class Login extends Component {
 
   handleChange({ target: { name, value } }) {
     this.setState({ [name]: value });
+  }
+
+  handleLogin() {
+    const { email, name } = this.state;
+    const { setUserInfo, history } = this.props;
+    setUserInfo(name, email);
+    history.push('/game');
   }
 
   verifyLogin() {
@@ -51,6 +60,7 @@ class Login extends Component {
             type="button"
             data-testid="btn-play"
             disabled={ this.verifyLogin() }
+            onClick={ this.handleLogin }
           >
             Jogar
           </button>
@@ -66,6 +76,12 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   tokenAPI: () => dispatch(fetchToken()),
+  setUserInfo: (username, email) => dispatch(addUserInfo(username, email)),
 });
+
+Login.propTypes = {
+  tokenAPI: PropTypes.func.isRequired,
+  setUserInfo: PropTypes.func.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(Login);

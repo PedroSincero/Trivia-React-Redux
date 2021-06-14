@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
+import Header from '../components/Header';
 // import { connect } from 'react-redux';
 
 class Game extends Component {
   render() {
     return (
-      <div />
+
+      <div>
+        <Header />
+        <h1>teste</h1>
+      </div>
     );
   }
 }

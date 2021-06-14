@@ -48,7 +48,9 @@ Header.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  imgUrl: state.imageReducer.picture,
+  imgUrl: state.userReducer.picture,
+  username: state.userReducer.user,
+  email: state.userReducer.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
