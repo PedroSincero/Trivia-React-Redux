@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
-import { fetchToken } from '../redux/actions';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { addUserInfo, fetchToken } from '../redux/actions';
+// import { connect } from 'react-redux';
 
 class Login extends Component {
   constructor(props) {
@@ -12,6 +16,7 @@ class Login extends Component {
     this.verifyLogin = this.verifyLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.saveInLocalStorage = this.saveInLocalStorage.bind(this);
+    // this.handleLogin = this.handleLogin.bind(this);
   }
 
   componentDidMount() {
@@ -23,16 +28,27 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
+  // handleLogin() {
+  //   const { email, name } = this.state;
+  //   const { setUserInfo, history } = this.props;
+  //   setUserInfo(name, email);
+  //   history.push('/game');
+  // }
+
   verifyLogin() {
     const { name, email } = this.state;
     return !(name && email);
   }
 
   saveInLocalStorage() {
-    const { token } = this.props;
+    const { email, name } = this.state;
+    const { setUserInfo, history, token } = this.props;
+    setUserInfo(name, email);
+    history.push('/game');
+
     const response = token.token;
     localStorage.setItem('token', response);
-    // console.log(response);
+
   }
 
   render() {
@@ -60,9 +76,19 @@ class Login extends Component {
             data-testid="btn-play"
             disabled={ this.verifyLogin() }
             onClick={ () => this.saveInLocalStorage() }
+            // onClick={ this.handleLogin }
           >
             Jogar
           </button>
+          <Link to="/config">
+            <button
+              type="button"
+              data-testid="btn-settings"
+            >
+              Configurações
+            </button>
+          </Link>
+
         </form>
       </div>
     );
@@ -75,6 +101,14 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   tokenAPI: () => dispatch(fetchToken()),
+  setUserInfo: (username, email) => dispatch(addUserInfo(username, email)),
 });
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  setUserInfo: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
