@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-export class Game extends Component {
+class Game extends Component {
   render() {
     return (
       <div />
