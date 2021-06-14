@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import { fetchToken } from '../redux/actions';
 
 class Login extends Component {
   constructor(props) {
@@ -10,6 +11,12 @@ class Login extends Component {
     };
     this.verifyLogin = this.verifyLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.saveInLocalStorage = this.saveInLocalStorage.bind(this);
+  }
+
+  componentDidMount() {
+    const { tokenAPI } = this.props;
+    tokenAPI();
   }
 
   handleChange({ target: { name, value } }) {
@@ -19,6 +26,13 @@ class Login extends Component {
   verifyLogin() {
     const { name, email } = this.state;
     return !(name && email);
+  }
+
+  saveInLocalStorage() {
+    const { token } = this.props;
+    const response = token.token;
+    localStorage.setItem('token', response);
+    // console.log(response);
   }
 
   render() {
@@ -45,6 +59,7 @@ class Login extends Component {
             type="button"
             data-testid="btn-play"
             disabled={ this.verifyLogin() }
+            onClick={ () => this.saveInLocalStorage() }
           >
             Jogar
           </button>
@@ -54,12 +69,12 @@ class Login extends Component {
   }
 }
 
-// const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ({
+  token: state.login.tokenUser,
+});
 
-// });
+const mapDispatchToProps = (dispatch) => ({
+  tokenAPI: () => dispatch(fetchToken()),
+});
 
-// const mapDispatchToProps = {
-
-// };
-export default Login;
-// export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
