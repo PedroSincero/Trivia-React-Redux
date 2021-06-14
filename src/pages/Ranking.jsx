@@ -5,7 +5,6 @@ export class Ranking extends Component {
   render() {
     return (
       <div>
-        
       </div>
     )
   }
