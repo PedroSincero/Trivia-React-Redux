@@ -42,13 +42,12 @@ class Login extends Component {
 
   saveInLocalStorage() {
     const { email, name } = this.state;
-    const { setUserInfo, history, token } = this.props;
+    const { setUserInfo, history, tokenUser } = this.props;
     setUserInfo(name, email);
     history.push('/game');
 
-    const response = token.token;
+    const response = tokenUser.token;
     localStorage.setItem('token', response);
-
   }
 
   render() {
@@ -96,7 +95,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  token: state.login.tokenUser,
+  tokenUser: state.login.tokenUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -109,6 +108,8 @@ Login.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   setUserInfo: PropTypes.func.isRequired,
+  tokenUser: PropTypes.func.isRequired,
+  tokenAPI: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
