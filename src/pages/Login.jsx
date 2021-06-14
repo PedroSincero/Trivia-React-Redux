@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import { fetchToken } from '../redux/actions';
 
 class Login extends Component {
   constructor(props) {
@@ -11,6 +12,11 @@ class Login extends Component {
     this.verifyLogin = this.verifyLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
+
+  // componentDidMount() {
+  //   const { tokenAPI } = this.props;
+  //   console.log(tokenAPI());
+  // }
 
   handleChange({ target: { name, value } }) {
     this.setState({ [name]: value });
@@ -58,8 +64,8 @@ class Login extends Component {
 
 // });
 
-// const mapDispatchToProps = {
+const mapDispatchToProps = (dispatch) => ({
+  tokenAPI: () => dispatch(fetchToken()),
+});
 
-// };
-export default Login;
-// export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
