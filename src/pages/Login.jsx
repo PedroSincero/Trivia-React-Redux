@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 // import { connect } from 'react-redux';
 
 class Login extends Component {
@@ -48,6 +49,15 @@ class Login extends Component {
           >
             Jogar
           </button>
+          <Link to="/config">
+            <button
+              type="button"
+              data-testid="btn-settings"
+            >
+              Configurações
+            </button>
+          </Link>
+
         </form>
       </div>
     );
