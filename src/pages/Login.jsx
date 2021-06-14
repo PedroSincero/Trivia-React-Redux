@@ -15,28 +15,39 @@ class Login extends Component {
     };
     this.verifyLogin = this.verifyLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
+    this.saveInLocalStorage = this.saveInLocalStorage.bind(this);
+    // this.handleLogin = this.handleLogin.bind(this);
   }
 
-  // componentDidMount() {
-  //   const { tokenAPI } = this.props;
-  //   console.log(tokenAPI());
-  // }
+  componentDidMount() {
+    const { tokenAPI } = this.props;
+    tokenAPI();
+  }
 
   handleChange({ target: { name, value } }) {
     this.setState({ [name]: value });
   }
 
-  handleLogin() {
-    const { email, name } = this.state;
-    const { setUserInfo, history } = this.props;
-    setUserInfo(name, email);
-    history.push('/game');
-  }
+  // handleLogin() {
+  //   const { email, name } = this.state;
+  //   const { setUserInfo, history } = this.props;
+  //   setUserInfo(name, email);
+  //   history.push('/game');
+  // }
 
   verifyLogin() {
     const { name, email } = this.state;
     return !(name && email);
+  }
+
+  saveInLocalStorage() {
+    const { email, name } = this.state;
+    const { setUserInfo, history, tokenUser } = this.props;
+    setUserInfo(name, email);
+    history.push('/game');
+
+    const response = tokenUser.token;
+    localStorage.setItem('token', response);
   }
 
   render() {
@@ -63,7 +74,8 @@ class Login extends Component {
             type="button"
             data-testid="btn-play"
             disabled={ this.verifyLogin() }
-            onClick={ this.handleLogin }
+            onClick={ () => this.saveInLocalStorage() }
+            // onClick={ this.handleLogin }
           >
             Jogar
           </button>
@@ -82,9 +94,9 @@ class Login extends Component {
   }
 }
 
-// const mapStateToProps = (state) => ({
-
-// });
+const mapStateToProps = (state) => ({
+  tokenUser: state.login.tokenUser,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   tokenAPI: () => dispatch(fetchToken()),
@@ -96,6 +108,8 @@ Login.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   setUserInfo: PropTypes.func.isRequired,
+  tokenUser: PropTypes.func.isRequired,
+  tokenAPI: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
