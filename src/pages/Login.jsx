@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { addUserInfo, fetchToken } from '../redux/actions';
 // import { connect } from 'react-redux';
 
 class Login extends Component {
@@ -11,10 +15,23 @@ class Login extends Component {
     };
     this.verifyLogin = this.verifyLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
+
+  // componentDidMount() {
+  //   const { tokenAPI } = this.props;
+  //   console.log(tokenAPI());
+  // }
 
   handleChange({ target: { name, value } }) {
     this.setState({ [name]: value });
+  }
+
+  handleLogin() {
+    const { email, name } = this.state;
+    const { setUserInfo, history } = this.props;
+    setUserInfo(name, email);
+    history.push('/game');
   }
 
   verifyLogin() {
@@ -46,6 +63,7 @@ class Login extends Component {
             type="button"
             data-testid="btn-play"
             disabled={ this.verifyLogin() }
+            onClick={ this.handleLogin }
           >
             Jogar
           </button>
@@ -68,8 +86,16 @@ class Login extends Component {
 
 // });
 
-// const mapDispatchToProps = {
+const mapDispatchToProps = (dispatch) => ({
+  tokenAPI: () => dispatch(fetchToken()),
+  setUserInfo: (username, email) => dispatch(addUserInfo(username, email)),
+});
 
-// };
-export default Login;
-// export default connect(mapStateToProps, mapDispatchToProps)(Login);
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  setUserInfo: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
