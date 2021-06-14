@@ -1,1 +1,3 @@
-export default login = () => '';
+const login = () => '';
+
+export default login;
