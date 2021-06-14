@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { addUserInfo, fetchToken } from '../redux/actions';
+// import { connect } from 'react-redux';
 
 class Login extends Component {
   constructor(props) {
@@ -64,6 +67,15 @@ class Login extends Component {
           >
             Jogar
           </button>
+          <Link to="/config">
+            <button
+              type="button"
+              data-testid="btn-settings"
+            >
+              Configurações
+            </button>
+          </Link>
+
         </form>
       </div>
     );
@@ -80,7 +92,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Login.propTypes = {
-  tokenAPI: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   setUserInfo: PropTypes.func.isRequired,
 };
 
