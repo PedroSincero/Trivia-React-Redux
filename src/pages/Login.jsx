@@ -20,9 +20,8 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    const { tokenAPI, questTrivia } = this.props;
+    const { tokenAPI } = this.props;
     tokenAPI();
-    questTrivia();
   }
 
   handleChange({ target: { name, value } }) {
@@ -43,15 +42,13 @@ class Login extends Component {
 
   saveInLocalStorage() {
     const { email, name } = this.state;
-    const { setUserInfo, history, tokenUser, questAPI } = this.props;
+    const { setUserInfo, history, tokenUser } = this.props;
     setUserInfo(name, email);
     history.push('/game');
 
     const response = tokenUser.token;
     localStorage.setItem('token', response);
     console.log(localStorage.getItem('token'));
-
-    console.log(questAPI);
   }
 
   render() {
@@ -100,13 +97,11 @@ class Login extends Component {
 
 const mapStateToProps = (state) => ({
   tokenUser: state.loginReducer.tokenUser,
-  questAPI: state.questReducer.question,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   tokenAPI: () => dispatch(fetchToken()),
   setUserInfo: (username, email) => dispatch(addUserInfo(username, email)),
-  questTrivia: () => dispatch(fetchQuestions()),
 });
 
 Login.propTypes = {
