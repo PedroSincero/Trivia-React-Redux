@@ -95,7 +95,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  tokenUser: state.login.tokenUser,
+  tokenUser: state.loginReducer.tokenUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

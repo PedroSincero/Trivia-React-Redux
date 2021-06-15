@@ -4,7 +4,7 @@ export const INITIAL_STATE = {
   tokenUser: '',
 };
 
-export function login(state = INITIAL_STATE, action) {
+export function loginReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
   case ADD_TOKEN:
     return {

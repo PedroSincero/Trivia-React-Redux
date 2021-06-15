@@ -3,12 +3,16 @@ import Header from '../components/Header';
 // import { connect } from 'react-redux';
 
 class Game extends Component {
+  componentDidMount() {
+
+  }
+
   render() {
     return (
 
       <div>
         <Header />
-        <h1>teste</h1>
+
       </div>
     );
   }
