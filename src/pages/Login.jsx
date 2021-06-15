@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { addUserInfo, fetchToken } from '../redux/actions';
-// import { connect } from 'react-redux';
+import { addUserInfo, fetchToken, fetchQuestions } from '../redux/actions';
+// import getTriviaQuestions from '../services/api/getTriviaQuestions';
 
 class Login extends Component {
   constructor(props) {
@@ -20,8 +20,9 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    const { tokenAPI } = this.props;
+    const { tokenAPI, questTrivia } = this.props;
     tokenAPI();
+    questTrivia();
   }
 
   handleChange({ target: { name, value } }) {
@@ -42,12 +43,15 @@ class Login extends Component {
 
   saveInLocalStorage() {
     const { email, name } = this.state;
-    const { setUserInfo, history, tokenUser } = this.props;
+    const { setUserInfo, history, tokenUser, questAPI } = this.props;
     setUserInfo(name, email);
     history.push('/game');
 
     const response = tokenUser.token;
     localStorage.setItem('token', response);
+    console.log(localStorage.getItem('token'));
+
+    console.log(questAPI);
   }
 
   render() {
@@ -96,11 +100,13 @@ class Login extends Component {
 
 const mapStateToProps = (state) => ({
   tokenUser: state.loginReducer.tokenUser,
+  questAPI: state.questReducer.question,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   tokenAPI: () => dispatch(fetchToken()),
   setUserInfo: (username, email) => dispatch(addUserInfo(username, email)),
+  questTrivia: () => dispatch(fetchQuestions()),
 });
 
 Login.propTypes = {
