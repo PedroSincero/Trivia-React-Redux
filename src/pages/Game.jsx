@@ -7,13 +7,29 @@ import { fetchQuestions } from '../redux/actions';
 class Game extends Component {
   constructor(props) {
     super(props);
+    // this.state = { seconds: 0 };
     this.randomArray = this.randomArray.bind(this);
   }
 
   async componentDidMount() {
     const { questTrivia } = this.props;
     await questTrivia();
+    // const ONE_SECOND = 100;
+    // this.cronometerInterval = setInterval(() => {
+    //   this.setState((state) => ({ seconds: state.seconds + 1 }));
+    // }, ONE_SECOND);
   }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   const MAX_SECONDS = 3000;
+  //   if (prevState.seconds === MAX_SECONDS) {
+  //     this.setState({ seconds: 0 });
+  //   }
+  // }
+
+  // componentWillUnmount() {
+  //   clearInterval();
+  // }
 
   randomArray(arr) {
     // Loop em todos os elementos
