@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import getAvatar from '../services/api/getAvatar';
+import getAvatar from '../services/helpers/getAvatar';
 import { addImage } from '../redux/actions';
+import { getFromLocalStorage } from '../services/helpers/localStorage';
+
+const INITIAL_STATE = {
+  score: 0,
+};
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = INITIAL_STATE;
+  }
+
   // Recebe um email como props do estado global e pega o avatar desse email
   componentDidMount() {
     const { email, updateUrlImg } = this.props;
@@ -12,8 +22,22 @@ class Header extends Component {
     updateUrlImg(imgUrl);
   }
 
+  componentDidUpdate() {
+    const returnedData = getFromLocalStorage('state');
+
+    if (returnedData) {
+      const { player: { score } } = returnedData;
+      this.updateScore(score);
+    }
+  }
+
+  updateScore(score) {
+    this.setState({ score });
+  }
+
   render() {
     const { username, imgUrl } = this.props;
+    const { score } = this.state;
     return (
       <div className="header">
         <img
@@ -28,7 +52,7 @@ class Header extends Component {
         >
           {username}
         </p>
-        <p data-testid="header-score">0</p>
+        <p data-testid="header-score">{score}</p>
       </div>
     );
   }

@@ -28,13 +28,6 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
-  // handleLogin() {
-  //   const { email, name } = this.state;
-  //   const { setUserInfo, history } = this.props;
-  //   setUserInfo(name, email);
-  //   history.push('/game');
-  // }
-
   verifyLogin() {
     const { name, email } = this.state;
     return !(name && email);
