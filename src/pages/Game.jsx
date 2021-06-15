@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestions } from '../redux/actions';
 
@@ -29,4 +30,8 @@ const mapDispatchToProps = (dispatch) => ({
   questTrivia: () => dispatch(fetchQuestions()),
 });
 
+Game.propTypes = {
+  questAPI: PropTypes.func.isRequired,
+  questTrivia: PropTypes.func.isRequired,
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

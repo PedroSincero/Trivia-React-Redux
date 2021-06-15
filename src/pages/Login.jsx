@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { addUserInfo, fetchToken, fetchQuestions } from '../redux/actions';
-// import getTriviaQuestions from '../services/api/getTriviaQuestions';
+import { addUserInfo, fetchToken } from '../redux/actions';
 
 class Login extends Component {
   constructor(props) {
@@ -48,7 +47,6 @@ class Login extends Component {
 
     const response = tokenUser.token;
     localStorage.setItem('token', response);
-    console.log(localStorage.getItem('token'));
   }
 
   render() {
