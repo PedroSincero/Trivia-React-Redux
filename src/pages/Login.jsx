@@ -15,7 +15,6 @@ class Login extends Component {
     this.verifyLogin = this.verifyLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.saveInLocalStorage = this.saveInLocalStorage.bind(this);
-    // this.handleLogin = this.handleLogin.bind(this);
   }
 
   componentDidMount() {
@@ -26,13 +25,6 @@ class Login extends Component {
   handleChange({ target: { name, value } }) {
     this.setState({ [name]: value });
   }
-
-  // handleLogin() {
-  //   const { email, name } = this.state;
-  //   const { setUserInfo, history } = this.props;
-  //   setUserInfo(name, email);
-  //   history.push('/game');
-  // }
 
   verifyLogin() {
     const { name, email } = this.state;
@@ -74,7 +66,6 @@ class Login extends Component {
             data-testid="btn-play"
             disabled={ this.verifyLogin() }
             onClick={ () => this.saveInLocalStorage() }
-            // onClick={ this.handleLogin }
           >
             Jogar
           </button>
