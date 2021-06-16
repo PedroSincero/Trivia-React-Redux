@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   assertions: 0,
   score: 0,
   isDisabled: false,
+  nextButton: false,
 };
 class Game extends Component {
   constructor(props) {
@@ -20,6 +21,8 @@ class Game extends Component {
     this.randomArray = this.randomArray.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
     this.checkDisabled = this.checkDisabled.bind(this);
+    this.reloadPage = this.reloadPage.bind(this);
+    this.handleButton = this.handleButton.bind(this);
   }
 
   async componentDidMount() {
@@ -27,6 +30,10 @@ class Game extends Component {
     const { score, assertions } = this.state;
     await questTrivia();
     updateLocalStorage('state', { player: { score, assertions } });
+  }
+
+  reloadPage() {
+    window.location.reload();
   }
 
   randomArray(arr) {
@@ -49,7 +56,7 @@ class Game extends Component {
       const score = this.doCalculation();
       updateLocalStorage('state', { player: { score } });
     }
-    this.setState({ answered: true });
+    this.setState({ answered: true, nextButton: true });
   }
 
   checkDisabled() {
@@ -88,7 +95,7 @@ class Game extends Component {
         type="button"
         onClick={ () => this.checkAnswer(true) }
         data-testid="correct-answer"
-        className={ `${(answered) ? 'correctAnswer' : ''}  game__button` }
+        className={ answered && 'correctAnswer' }
         disabled={ isDisabled }
       >
         {correct}
@@ -104,7 +111,7 @@ class Game extends Component {
         onClick={ () => this.checkAnswer() }
         key={ index }
         data-testid={ `wrong-answer-${index}` }
-        className={ (answered) ? 'incorrectAnswer' : '' }
+        className={ answered && 'incorrectAnswer' }
         disabled={ isDisabled }
       >
         {incorrect}
@@ -112,14 +119,17 @@ class Game extends Component {
     ));
   }
 
-  // saveStorage() {
-  //   const { name, assertions, score, gravatarEmail } = this.state;
-  //   const { nameUser, email } = this.props;
-  //   this.setState({ name: nameUser, assertions, score, gravatarEmail: email });
-  // }
+  handleButton() {
+    return (
+      <button type="button" data-testid="btn-next" onClick={ this.reloadPage }>
+        Próxima
+      </button>
+    );
+  }
 
   render() {
     const { isLoading } = this.props;
+    const { nextButton } = this.state;
     if (!isLoading) {
       const { questAPI, idAPI } = this.props;
       const { answered } = this.state;
@@ -149,6 +159,7 @@ class Game extends Component {
             disabled={ this.checkDisabled }
             checkAnswer={ this.checkAnswer }
           />
+          {nextButton && this.handleButton()}
         </div>
       );
     }

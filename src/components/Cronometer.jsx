@@ -11,7 +11,6 @@ class Cronometer extends Component {
 
   componentDidMount() {
     const ONE_SECOND = 1000;
-    // const { timer } = this.state;
     this.cronometerInterval = setInterval(() => {
       const { timerSubtract, timer: globalTimer } = this.props;
       this.setState((teste) => ({ seconds: teste.seconds - 1 }));
@@ -23,7 +22,6 @@ class Cronometer extends Component {
   componentDidUpdate() {
     const { disabled, checkAnswer, timer, answered } = this.props;
     if (answered) {
-      clearInterval(this.globalCronometerInterval);
       clearInterval(this.cronometerInterval);
     }
 
@@ -31,11 +29,8 @@ class Cronometer extends Component {
     if (timer === MAX_SECONDS) {
       checkAnswer();
       disabled();
+      clearInterval(this.cronometerInterval);
     }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.cronometerInterval);
   }
 
   render() {
