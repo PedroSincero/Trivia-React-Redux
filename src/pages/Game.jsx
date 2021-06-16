@@ -9,6 +9,7 @@ import Cronometer from '../components/Cronometer';
 const INITIAL_STATE = {
   answered: false,
   isDisabled: false,
+  nextButton: false,
 };
 class Game extends Component {
   constructor(props) {
@@ -17,11 +18,17 @@ class Game extends Component {
     this.randomArray = this.randomArray.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
     this.checkDisabled = this.checkDisabled.bind(this);
+    this.reloadPage = this.reloadPage.bind(this);
+    this.handleButton = this.handleButton.bind(this);
   }
 
   async componentDidMount() {
     const { questTrivia } = this.props;
     await questTrivia();
+  }
+
+  reloadPage() {
+    window.location.reload();
   }
 
   randomArray(arr) {
@@ -37,7 +44,10 @@ class Game extends Component {
   }
 
   checkAnswer() {
-    this.setState({ answered: true });
+    this.setState({
+      answered: true,
+      nextButton: true,
+    });
   }
 
   checkDisabled() {
@@ -75,8 +85,17 @@ class Game extends Component {
     ));
   }
 
+  handleButton() {
+    return (
+      <button type="button" data-testid="btn-next" onClick={ this.reloadPage }>
+        Próxima
+      </button>
+    );
+  }
+
   render() {
     const { isLoading } = this.props;
+    const { nextButton } = this.state;
     if (!isLoading) {
       const { questAPI, idAPI } = this.props;
 
@@ -103,6 +122,8 @@ class Game extends Component {
             {randomAnswers}
           </section>
           <Cronometer disabled={ this.checkDisabled } checkAnswer={ this.checkAnswer } />
+          {nextButton && this.handleButton()}
+
         </div>
       );
     }
