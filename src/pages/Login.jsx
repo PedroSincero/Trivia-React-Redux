@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { addUserInfo, fetchToken } from '../redux/actions';
+import { setOnLocalStorage } from '../services/helpers/localStorage';
 
 class Login extends Component {
   constructor(props) {
@@ -34,7 +35,10 @@ class Login extends Component {
   saveInLocalStorage() {
     const { email, name } = this.state;
     const { setUserInfo, history, tokenUser } = this.props;
+
     setUserInfo(name, email);
+    const userInfo = { player: { name, gravatarEmail: email } };
+    setOnLocalStorage('state', userInfo);
     history.push('/game');
 
     const response = tokenUser.token;

@@ -4,9 +4,12 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import '../style/Game.css';
 import { fetchQuestions } from '../redux/actions';
+import { updateLocalStorage } from '../services/helpers/localStorage';
 
 const INITIAL_STATE = {
   answered: false,
+  assertions: 0,
+  score: 0,
 };
 class Game extends Component {
   constructor(props) {
@@ -18,7 +21,9 @@ class Game extends Component {
 
   async componentDidMount() {
     const { questTrivia } = this.props;
+    const { score, assertions } = this.state;
     await questTrivia();
+    updateLocalStorage('state', { player: { score, assertions } });
   }
 
   randomArray(arr) {
@@ -33,8 +38,20 @@ class Game extends Component {
     return arr;
   }
 
-  checkAnswer() {
+  checkAnswer(isCorrect) {
+    const { answered } = this.state;
+    if (answered) return;
+    const isAnswerCorrect = isCorrect;
+    if (isAnswerCorrect) {
+      const score = this.doCalculation();
+      updateLocalStorage('state', { player: { score } });
+    }
+
     this.setState({ answered: true });
+  }
+
+  doCalculation() {
+
   }
 
   handleCorrectAnswer(correct) {
@@ -42,7 +59,7 @@ class Game extends Component {
     return (
       <button
         type="button"
-        onClick={ () => this.checkAnswer() }
+        onClick={ () => this.checkAnswer(true) }
         data-testid="correct-answer"
         className={ `${(answered) ? 'correctAnswer' : ''}  game__button` }
       >
@@ -56,7 +73,7 @@ class Game extends Component {
     return incorrects.map((incorrect, index) => (
       <button
         type="button"
-        onClick={ () => this.checkAnswer() }
+        onClick={ this.checkAnswer }
         key={ index }
         data-testid={ `wrong-answer-${index}` }
         className={ (answered) ? 'incorrectAnswer' : '' }
@@ -66,12 +83,16 @@ class Game extends Component {
     ));
   }
 
+  // saveStorage() {
+  //   const { name, assertions, score, gravatarEmail } = this.state;
+  //   const { nameUser, email } = this.props;
+  //   this.setState({ name: nameUser, assertions, score, gravatarEmail: email });
+  // }
+
   render() {
     const { isLoading } = this.props;
     if (!isLoading) {
       const { questAPI, idAPI } = this.props;
-      console.log(idAPI);
-      console.log(questAPI);
       const {
         category,
         question,
@@ -79,7 +100,6 @@ class Game extends Component {
         incorrect_answers: incorrectAnswers } = questAPI[idAPI];
       const correct = this.handleCorrectAnswer(correctAnswer);
       const incorrect = this.handleIncorrectAnswer(incorrectAnswers);
-
       const answers = [correct, ...incorrect];
       const randomAnswers = this.randomArray(answers);
       return (
@@ -109,6 +129,8 @@ const mapStateToProps = (state) => ({
   questAPI: state.questReducer.question,
   isLoading: state.questReducer.loading,
   idAPI: state.questReducer.id,
+  // nameUser: state.userReducer.user,
+  // email: state.userReducer.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
