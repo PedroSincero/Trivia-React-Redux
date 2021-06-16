@@ -18,15 +18,13 @@ class Cronometer extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { disabled, checkAnswer } = this.props;
-    const MAX_SECONDS = 0;
+    const MAX_SECONDS = 1;
     if (prevState.seconds === MAX_SECONDS) {
+      console.log('bobo');
       checkAnswer();
       disabled();
+      clearInterval(this.cronometerInterval);
     }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.cronometerInterval);
   }
 
   render() {
