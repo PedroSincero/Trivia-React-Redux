@@ -51,7 +51,7 @@ class Game extends Component {
         type="button"
         onClick={ () => this.checkAnswer() }
         data-testid="correct-answer"
-        className={ `${(answered) ? 'correctAnswer' : ''}  game__button` }
+        className={ answered && 'correctAnswer' }
         disabled={ isDisabled }
       >
         {correct}

@@ -20,7 +20,6 @@ class Cronometer extends Component {
     const { disabled, checkAnswer } = this.props;
     const MAX_SECONDS = 1;
     if (prevState.seconds === MAX_SECONDS) {
-      console.log('bobo');
       checkAnswer();
       disabled();
       clearInterval(this.cronometerInterval);
