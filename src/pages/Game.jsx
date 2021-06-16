@@ -2,13 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import '../style/Game.css';
 import { fetchQuestions } from '../redux/actions';
 
+const INITIAL_STATE = {
+  answered: false,
+};
 class Game extends Component {
   constructor(props) {
     super(props);
     // this.state = { seconds: 0 };
+    this.state = INITIAL_STATE;
     this.randomArray = this.randomArray.bind(this);
+    this.checkAnswer = this.checkAnswer.bind(this);
   }
 
   async componentDidMount() {
@@ -43,19 +49,36 @@ class Game extends Component {
     return arr;
   }
 
+  checkAnswer() {
+    this.setState({ answered: true });
+  }
+
   handleCorrectAnswer(correct) {
+    const { answered } = this.state;
     return (
-      <p data-testid="correct-answer">
+      <button
+        type="button"
+        onClick={ () => this.checkAnswer() }
+        data-testid="correct-answer"
+        className={ `${(answered) ? 'correctAnswer' : ''}  game__button` }
+      >
         {correct}
-      </p>
+      </button>
     );
   }
 
   handleIncorrectAnswer(incorrects) {
+    const { answered } = this.state;
     return incorrects.map((incorrect, index) => (
-      <p key={ index } data-testid={ `wrong-answer-${index}` }>
+      <button
+        type="button"
+        onClick={ () => this.checkAnswer() }
+        key={ index }
+        data-testid={ `wrong-answer-${index}` }
+        className={ (answered) ? 'incorrectAnswer' : '' }
+      >
         {incorrect}
-      </p>
+      </button>
     ));
   }
 
