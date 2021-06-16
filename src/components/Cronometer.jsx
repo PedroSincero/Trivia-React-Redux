@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Cronometer extends Component {
   constructor(props) {
@@ -37,5 +38,9 @@ class Cronometer extends Component {
     );
   }
 }
+Cronometer.propTypes = {
+  disabled: PropTypes.func.isRequired,
+  checkAnswer: PropTypes.func.isRequired,
+};
 
 export default Cronometer;

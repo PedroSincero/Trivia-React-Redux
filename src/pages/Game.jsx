@@ -76,7 +76,6 @@ class Game extends Component {
   }
 
   render() {
-    const { isDisabled } = this.state;
     const { isLoading } = this.props;
     if (!isLoading) {
       const { questAPI, idAPI } = this.props;
