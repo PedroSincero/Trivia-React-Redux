@@ -4,10 +4,13 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import '../style/Game.css';
 import { fetchQuestions } from '../redux/actions';
+import { updateLocalStorage } from '../services/helpers/localStorage';
 import Cronometer from '../components/Cronometer';
 
 const INITIAL_STATE = {
   answered: false,
+  assertions: 0,
+  score: 0,
   isDisabled: false,
   nextButton: false,
 };
@@ -24,7 +27,9 @@ class Game extends Component {
 
   async componentDidMount() {
     const { questTrivia } = this.props;
+    const { score, assertions } = this.state;
     await questTrivia();
+    updateLocalStorage('state', { player: { score, assertions } });
   }
 
   reloadPage() {
@@ -43,15 +48,44 @@ class Game extends Component {
     return arr;
   }
 
-  checkAnswer() {
-    this.setState({
-      answered: true,
-      nextButton: true,
-    });
+  checkAnswer(isCorrect) {
+    const { answered } = this.state;
+    if (answered) return;
+    console.log(isCorrect);
+    if (isCorrect) {
+      const score = this.doCalculation();
+      updateLocalStorage('state', { player: { score } });
+    }
+    this.setState({ answered: true, nextButton: true });
   }
 
   checkDisabled() {
     this.setState({ isDisabled: true });
+  }
+
+  // Calculo: 10 pontos estaticos
+  // valor do timer
+  // Difficulty: hard = 3, med = 2, easy =1
+  doCalculation() {
+    const { questAPI, idAPI, timer } = this.props;
+    const { difficulty } = questAPI[idAPI];
+    const staticPoint = 10;
+    let points = 1;
+    const TRES = 3;
+    switch (difficulty) {
+    case 'hard':
+      points = TRES;
+      break;
+    case 'medium':
+      points = 2;
+      break;
+    default:
+      points = 1;
+    }
+    console.log(staticPoint);
+    console.log(points);
+    console.log(timer);
+    return staticPoint + (points * timer);
   }
 
   handleCorrectAnswer(correct) {
@@ -59,7 +93,7 @@ class Game extends Component {
     return (
       <button
         type="button"
-        onClick={ () => this.checkAnswer() }
+        onClick={ () => this.checkAnswer(true) }
         data-testid="correct-answer"
         className={ answered && 'correctAnswer' }
         disabled={ isDisabled }
@@ -98,7 +132,7 @@ class Game extends Component {
     const { nextButton } = this.state;
     if (!isLoading) {
       const { questAPI, idAPI } = this.props;
-
+      const { answered } = this.state;
       const {
         category,
         question,
@@ -106,7 +140,6 @@ class Game extends Component {
         incorrect_answers: incorrectAnswers } = questAPI[idAPI];
       const correct = this.handleCorrectAnswer(correctAnswer);
       const incorrect = this.handleIncorrectAnswer(incorrectAnswers);
-
       const answers = [correct, ...incorrect];
       const randomAnswers = this.randomArray(answers);
       return (
@@ -121,9 +154,12 @@ class Game extends Component {
           <section>
             {randomAnswers}
           </section>
-          <Cronometer disabled={ this.checkDisabled } checkAnswer={ this.checkAnswer } />
+          <Cronometer
+            answered={ answered }
+            disabled={ this.checkDisabled }
+            checkAnswer={ this.checkAnswer }
+          />
           {nextButton && this.handleButton()}
-
         </div>
       );
     }
@@ -139,6 +175,9 @@ const mapStateToProps = (state) => ({
   questAPI: state.questReducer.question,
   isLoading: state.questReducer.loading,
   idAPI: state.questReducer.id,
+  timer: state.questReducer.timer,
+  // nameUser: state.userReducer.user,
+  // email: state.userReducer.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -150,6 +189,7 @@ Game.propTypes = {
   questTrivia: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   idAPI: PropTypes.func.isRequired,
+  timer: PropTypes.number.isRequired,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
 

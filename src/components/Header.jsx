@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import getAvatar from '../services/api/getAvatar';
+import getAvatar from '../services/helpers/getAvatar';
 import { addImage } from '../redux/actions';
 
 class Header extends Component {
