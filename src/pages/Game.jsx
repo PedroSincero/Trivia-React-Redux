@@ -8,6 +8,7 @@ import Cronometer from '../components/Cronometer';
 
 const INITIAL_STATE = {
   answered: false,
+  isDisabled: false,
 };
 class Game extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class Game extends Component {
     this.state = INITIAL_STATE;
     this.randomArray = this.randomArray.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
+    this.checkDisabled = this.checkDisabled.bind(this);
   }
 
   async componentDidMount() {
@@ -38,14 +40,19 @@ class Game extends Component {
     this.setState({ answered: true });
   }
 
+  checkDisabled() {
+    this.setState({ isDisabled: true });
+  }
+
   handleCorrectAnswer(correct) {
-    const { answered } = this.state;
+    const { answered, isDisabled } = this.state;
     return (
       <button
         type="button"
         onClick={ () => this.checkAnswer() }
         data-testid="correct-answer"
         className={ `${(answered) ? 'correctAnswer' : ''}  game__button` }
+        disabled={ isDisabled }
       >
         {correct}
       </button>
@@ -53,7 +60,7 @@ class Game extends Component {
   }
 
   handleIncorrectAnswer(incorrects) {
-    const { answered } = this.state;
+    const { answered, isDisabled } = this.state;
     return incorrects.map((incorrect, index) => (
       <button
         type="button"
@@ -61,6 +68,7 @@ class Game extends Component {
         key={ index }
         data-testid={ `wrong-answer-${index}` }
         className={ (answered) ? 'incorrectAnswer' : '' }
+        disabled={ isDisabled }
       >
         {incorrect}
       </button>
@@ -68,11 +76,11 @@ class Game extends Component {
   }
 
   render() {
+    const { isDisabled } = this.state;
     const { isLoading } = this.props;
     if (!isLoading) {
       const { questAPI, idAPI } = this.props;
-      console.log(idAPI);
-      console.log(questAPI);
+
       const {
         category,
         question,
@@ -95,7 +103,7 @@ class Game extends Component {
           <section>
             {randomAnswers}
           </section>
-          <Cronometer />
+          <Cronometer disabled={ this.checkDisabled } checkAnswer={ this.checkAnswer } />
         </div>
       );
     }

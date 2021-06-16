@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 class Cronometer extends Component {
   constructor(props) {
     super(props);
-    this.state = { seconds: 30 };
+    this.state = {
+      seconds: 30,
+    };
   }
 
   componentDidMount() {
@@ -14,9 +16,11 @@ class Cronometer extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { disabled, checkAnswer } = this.props;
     const MAX_SECONDS = 0;
     if (prevState.seconds === MAX_SECONDS) {
-      this.setState({ seconds: 30 });
+      checkAnswer();
+      disabled();
     }
   }
 
