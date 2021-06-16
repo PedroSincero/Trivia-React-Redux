@@ -67,7 +67,7 @@ class Game extends Component {
         onClick={ () => this.checkAnswer() }
         key={ index }
         data-testid={ `wrong-answer-${index}` }
-        className={ (answered) ? 'incorrectAnswer' : '' }
+        className={ answered && 'incorrectAnswer' }
         disabled={ isDisabled }
       >
         {incorrect}
