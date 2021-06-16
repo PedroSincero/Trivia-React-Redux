@@ -18,11 +18,16 @@ class Game extends Component {
     this.randomArray = this.randomArray.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
     this.checkDisabled = this.checkDisabled.bind(this);
+    this.reloadPage = this.reloadPage.bind(this);
   }
 
   async componentDidMount() {
     const { questTrivia } = this.props;
     await questTrivia();
+  }
+
+  reloadPage() {
+    window.location.reload();
   }
 
   randomArray(arr) {
@@ -108,7 +113,17 @@ class Game extends Component {
             {randomAnswers}
           </section>
           <Cronometer disabled={ this.checkDisabled } checkAnswer={ this.checkAnswer } />
-          {nextButton && <button type="button" data-testid="btn-next">Próxima</button> }
+          {
+            nextButton
+            && <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.reloadPage }
+            >
+              Próxima
+            </button>
+          }
+
         </div>
       );
     }
