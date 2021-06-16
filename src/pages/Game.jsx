@@ -9,6 +9,7 @@ import Cronometer from '../components/Cronometer';
 const INITIAL_STATE = {
   answered: false,
   isDisabled: false,
+  nextButton: false,
 };
 class Game extends Component {
   constructor(props) {
@@ -37,7 +38,10 @@ class Game extends Component {
   }
 
   checkAnswer() {
-    this.setState({ answered: true });
+    this.setState({
+      answered: true,
+      nextButton: true,
+    });
   }
 
   checkDisabled() {
@@ -77,6 +81,7 @@ class Game extends Component {
 
   render() {
     const { isLoading } = this.props;
+    const { nextButton } = this.state;
     if (!isLoading) {
       const { questAPI, idAPI } = this.props;
 
@@ -103,6 +108,7 @@ class Game extends Component {
             {randomAnswers}
           </section>
           <Cronometer disabled={ this.checkDisabled } checkAnswer={ this.checkAnswer } />
+          {nextButton && <button type="button" data-testid="btn-next">Próxima</button> }
         </div>
       );
     }
