@@ -19,6 +19,7 @@ class Game extends Component {
     this.checkAnswer = this.checkAnswer.bind(this);
     this.checkDisabled = this.checkDisabled.bind(this);
     this.reloadPage = this.reloadPage.bind(this);
+    this.handleButton = this.handleButton.bind(this);
   }
 
   async componentDidMount() {
@@ -84,6 +85,14 @@ class Game extends Component {
     ));
   }
 
+  handleButton() {
+    return (
+      <button type="button" data-testid="btn-next" onClick={ this.reloadPage }>
+        Próxima
+      </button>
+    );
+  }
+
   render() {
     const { isLoading } = this.props;
     const { nextButton } = this.state;
@@ -113,16 +122,7 @@ class Game extends Component {
             {randomAnswers}
           </section>
           <Cronometer disabled={ this.checkDisabled } checkAnswer={ this.checkAnswer } />
-          {
-            nextButton
-            && <button
-              type="button"
-              data-testid="btn-next"
-              onClick={ this.reloadPage }
-            >
-              Próxima
-            </button>
-          }
+          {nextButton && this.handleButton()}
 
         </div>
       );
