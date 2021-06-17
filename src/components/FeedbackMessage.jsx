@@ -73,12 +73,12 @@ class FeedbackMessage extends Component {
   RenderFeedbackMessage() {
     const { assertions, score } = this.props;
     console.log(assertions);
-    const scoreMessage = this.messageScore(score);
-    const assertionMessage = this.messageFeedback(assertions);
+    // const scoreMessage = this.messageScore(score);
+    // const assertionMessage = this.messageFeedback(assertions);
     return (
       <>
-        {assertionMessage}
-        {scoreMessage}
+        <p data-testid="feedback-total-score">{score}</p>
+        <p data-testid="feedback-total-question">{assertions}</p>
       </>
     );
   }
