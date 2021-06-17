@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import BtnRanking from '../components/Buttons';
+import FeedbackMessage from '../components/FeedbackMessage';
 
 class Feedback extends Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class Feedback extends Component {
           <h1 data-testid="feedback-text">
             {this.renderFinalMessage()}
           </h1>
+          <FeedbackMessage />
           <BtnRanking />
         </div>
       </>

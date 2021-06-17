@@ -4,7 +4,8 @@ import {
   SUBTRACT_TIMER,
   RESET_TIMER,
   UPDATE_ID,
-  UPDATE_POINTS } from '../actions';
+  UPDATE_POINTS,
+  TOTAL_SCORE } from '../actions';
 
 export const INITIAL_STATE = {
   question: '',
@@ -12,10 +13,12 @@ export const INITIAL_STATE = {
   id: 0,
   timer: 30,
   score: 0,
+  totalScore: 0,
   assertions: 0,
 };
 
 export function questReducer(state = INITIAL_STATE, action) {
+  console.log(state.assertions);
   switch (action.type) {
   case REQUEST_API:
     return { ...state,
@@ -44,6 +47,12 @@ export function questReducer(state = INITIAL_STATE, action) {
       ...state,
       score: action.score,
       assertions: state.assertions + 1,
+    };
+
+  case TOTAL_SCORE:
+    return {
+      ...state,
+      totalScore: state.totalScore + action.score,
     };
   default:
     return state;

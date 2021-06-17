@@ -1,36 +1,84 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 
 class FeedbackMessage extends Component {
   messageFeedback(assertions) {
-    switch (assertions) {
-    case (assertions === 1):
-      return 'Você acertou 1 pergunta!';
-
-    case (assertions > 1):
-      return `Você acertou ${assertions} perguntas!`;
-
-    default:
-      return 'Você não acertou nenhuma pergunta!';
+    if (assertions === 1) {
+      return (
+        <p>
+          Você acertou
+          <span data-testid="feedback-total-question">
+            {' '}
+            {assertions}
+          </span>
+          {' '}
+          pergunta!
+        </p>
+      );
     }
+    if (assertions > 1) {
+      return (
+        <p>
+          Você acertou
+          <span data-testid="feedback-total-question">
+            {' '}
+            {assertions}
+          </span>
+          {' '}
+          perguntas!
+        </p>
+      );
+    }
+    return (
+      <p>
+        Você acertou
+        <span data-testid="feedback-total-question">
+          {' '}
+          {assertions}
+        </span>
+        {' '}
+        perguntas!
+      </p>
+    );
   }
 
   messageScore(score) {
     if (score > 1) {
-      return `Um total de ${score} pontos`;
+      return (
+        <p>
+          Um total de
+          {' '}
+          <span data-testid="feedback-total-score">
+            {score}
+          </span>
+          {' '}
+          pontos`
+        </p>
+      );
     }
-    return `Um total de ${score} ponto`;
+    return (
+      <p>
+        Um total de
+        {' '}
+        <span data-testid="feedback-total-score">
+          {score}
+        </span>
+        {' '}
+        ponto`
+      </p>
+    );
   }
 
   RenderFeedbackMessage() {
     const { assertions, score } = this.props;
+    console.log(assertions);
     const scoreMessage = this.messageScore(score);
     const assertionMessage = this.messageFeedback(assertions);
     return (
       <>
-        <p data-testid="feedback-total-question">{assertionMessage}</p>
-        <p data-testid="feedback-total-score">{scoreMessage}</p>
+        {assertionMessage}
+        {scoreMessage}
       </>
     );
   }
@@ -46,8 +94,8 @@ class FeedbackMessage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  score: state.requestReducer.score,
-  assertions: state.requestReducer.assertions,
+  score: state.questReducer.score,
+  assertions: state.questReducer.assertions,
 });
 
 FeedbackMessage.propTypes = {
@@ -65,5 +113,4 @@ FeedbackMessage.defaultProps = {
 //   algo: () => dispatch(algo())
 // })
 
-// Esperando existir
 export default connect(mapStateToProps)(FeedbackMessage);
