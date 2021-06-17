@@ -14,7 +14,7 @@ class Header extends Component {
   }
 
   render() {
-    const { username, imgUrl, score } = this.props;
+    const { username, imgUrl, updatedScore } = this.props;
 
     return (
       <div className="header">
@@ -30,7 +30,7 @@ class Header extends Component {
         >
           {username}
         </p>
-        <p data-testid="header-score">{score}</p>
+        <p data-testid="header-score">{updatedScore}</p>
       </div>
     );
   }
@@ -41,20 +41,21 @@ Header.propTypes = {
   username: PropTypes.string,
   imgUrl: PropTypes.string,
   updateUrlImg: PropTypes.func.isRequired,
-  score: PropTypes.number.isRequired,
+  updatedScore: PropTypes.number,
 };
 
 Header.defaultProps = {
   email: 'pessoa@email.com',
   username: 'pessoa',
   imgUrl: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+  updatedScore: 0,
 };
 
 const mapStateToProps = (state) => ({
   imgUrl: state.userReducer.picture,
   username: state.userReducer.user,
   email: state.userReducer.email,
-  score: state.questReducer.score,
+  updatedScore: state.questReducer.totalScore,
 });
 
 const mapDispatchToProps = (dispatch) => ({

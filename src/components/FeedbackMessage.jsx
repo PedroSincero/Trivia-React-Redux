@@ -71,13 +71,13 @@ class FeedbackMessage extends Component {
   }
 
   RenderFeedbackMessage() {
-    const { assertions, score } = this.props;
+    const { assertions, summedScore } = this.props;
     console.log(assertions);
     // const scoreMessage = this.messageScore(score);
     // const assertionMessage = this.messageFeedback(assertions);
     return (
       <>
-        <p data-testid="feedback-total-score">{score}</p>
+        <p data-testid="feedback-total-score">{summedScore}</p>
         <p data-testid="feedback-total-question">{assertions}</p>
       </>
     );
@@ -94,17 +94,17 @@ class FeedbackMessage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  score: state.questReducer.score,
+  summedScore: state.questReducer.totalScore,
   assertions: state.questReducer.assertions,
 });
 
 FeedbackMessage.propTypes = {
-  score: PropTypes.number,
+  summedScore: PropTypes.number,
   assertions: PropTypes.number,
 };
 
 FeedbackMessage.defaultProps = {
-  score: 0,
+  summedScore: 0,
   assertions: 0,
 };
 
