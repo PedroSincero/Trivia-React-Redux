@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
-
+import BtnRanking from '../components/Buttons';
 // import { connect } from 'react-redux';
 
 class Feedback extends Component {
@@ -26,7 +26,7 @@ class Feedback extends Component {
           <h1 data-testid="feedback-text">
             {this.renderFinalMessage()}
           </h1>
-
+          <BtnRanking />
         </div>
       </>
     );

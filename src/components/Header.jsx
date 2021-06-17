@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import getAvatar from '../services/helpers/getAvatar';
 import { addImage } from '../redux/actions';
-import { getFromLocalStorage } from '../services/helpers/localStorage';
+// import { getFromLocalStorage } from '../services/helpers/localStorage';
 
 const INITIAL_STATE = {
   score: 0,
@@ -23,12 +23,11 @@ class Header extends Component {
   }
 
   componentDidUpdate() {
-    const returnedData = getFromLocalStorage('state');
-
-    if (returnedData) {
-      const { player: { score } } = returnedData;
-      this.updateScore(score);
-    }
+    // const returnedData = getFromLocalStorage('state');
+    // if (returnedData) {
+    //   const { player: { score } } = returnedData;
+    //   this.updateScore(score);
+    // }
   }
 
   updateScore(score) {
