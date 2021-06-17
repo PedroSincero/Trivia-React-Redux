@@ -6,18 +6,12 @@ import BtnRanking from '../components/Buttons';
 import FeedbackMessage from '../components/FeedbackMessage';
 import ButtonFeed from '../components/ButtonFeed';
 // import { connect } from 'react-redux';
-import { setOnLocalStorage } from '../services/helpers/localStorage';
 
 class Feedback extends Component {
   constructor(props) {
     super(props);
     this.renderFinalMessage = this.renderFinalMessage.bind(this);
     this.saveInLocalStorage = this.saveInLocalStorage.bind(this);
-  }
-
-  saveInLocalStorage(name, score, picture) {
-    const infoRanking = [{ name, score, picture }];
-    setOnLocalStorage('ranking', infoRanking);
   }
 
   renderFinalMessage() {

@@ -44,7 +44,7 @@ class Game extends Component {
   }
 
   nextQuestion() {
-    const { idAPI, setNextQuestion, timerReset, history } = this.props;
+    const { idAPI, setNextQuestion, timerReset, history, nameUser, picture, totalScore } = this.props;
     const FOUR = 4;
     if (idAPI < FOUR) {
       setNextQuestion(idAPI + 1);
@@ -52,6 +52,8 @@ class Game extends Component {
       timerReset();
       this.setState({ isDisabled: false, nextButton: false });
     } else {
+      const infoRanking = [{ nameUser, totalScore, picture }];
+      setOnLocalStorage('ranking', infoRanking);
       history.push('/feedback');
     }
   }
@@ -193,8 +195,10 @@ const mapStateToProps = (state) => ({
   idAPI: state.questReducer.id,
   timer: state.questReducer.timer,
   assertions: state.questReducer.assertions,
-  // nameUser: state.userReducer.user,
-  // email: state.userReducer.email,
+  nameUser: state.userReducer.user,
+  email: state.userReducer.email,
+  picture: state.userReducer.picture,
+  totalScore: state.questReducer.totalScore,
 });
 
 const mapDispatchToProps = (dispatch) => ({
