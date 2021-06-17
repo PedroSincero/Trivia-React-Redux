@@ -7,6 +7,7 @@ export const RESET_TIMER = 'RESET_TIMER';
 export const SUBTRACT_TIMER = 'SUBTRACT_TIMER';
 export const UPDATE_ID = 'UPDATE_ID';
 export const UPDATE_POINTS = 'UPDATE_POINTS';
+export const TOTAL_SCORE = 'TOTAL_SCORE';
 
 export const getToken = (token) => ({
   type: ADD_TOKEN,
@@ -62,6 +63,11 @@ export const requestAPI = () => ({
 
 export const updatePoints = (score) => ({
   type: UPDATE_POINTS,
+  score,
+});
+
+export const totalScore = (score) => ({
+  type: TOTAL_SCORE,
   score,
 });
 
