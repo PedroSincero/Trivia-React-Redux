@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import BtnRanking from '../components/Buttons';
+import ButtonFeed from '../components/ButtonFeed';
 // import { connect } from 'react-redux';
 
 class Feedback extends Component {
@@ -27,6 +28,7 @@ class Feedback extends Component {
             {this.renderFinalMessage()}
           </h1>
           <BtnRanking />
+          <ButtonFeed />
         </div>
       </>
     );
