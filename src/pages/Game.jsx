@@ -6,6 +6,7 @@ import '../style/Game.css';
 import { fetchQuestions } from '../redux/actions';
 import { updateLocalStorage } from '../services/helpers/localStorage';
 import Cronometer from '../components/Cronometer';
+import BtnRanking from '../components/Buttons';
 
 const INITIAL_STATE = {
   answered: false,
@@ -160,6 +161,7 @@ class Game extends Component {
             checkAnswer={ this.checkAnswer }
           />
           {nextButton && this.handleButton()}
+          <BtnRanking />
         </div>
       );
     }
