@@ -5,27 +5,9 @@ import ButtonFeed from '../components/ButtonFeed';
 // import { connect } from 'react-redux';
 
 class Feedback extends Component {
-  constructor() {
-    super();
-    this.redirectLogin = this.redirectLogin.bind(this);
-  }
-
-  redirectLogin() {
-    const { history } = this.props;
-    history.push('/');
-  }
-
   render() {
     return (
       <div>
-        <button
-          type="button"
-          data-testid="btn-play-again"
-          onClick={ this.redirectLogin() }
-        >
-          Jogar novamente
-        </button>
-        <h1 data-testid="feedback-text">Feedback</h1>
         <ButtonFeed />
         <BtnRanking />
       </div>
