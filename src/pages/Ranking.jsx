@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 // import { connect } from 'react-redux';
 
 class Ranking extends Component {
@@ -8,7 +9,11 @@ class Ranking extends Component {
         <section data-testid="ranking-title">
           Titulo
         </section>
-        <button type="button">INICIO</button>
+        <Link to="/">
+          <button type="button" data-testid="btn-ranking">
+            Inicio
+          </button>
+        </Link>
       </div>
     );
   }
