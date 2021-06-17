@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 import BtnRanking from '../components/Buttons';
+import FeedbackMessage from '../components/FeedbackMessage';
+import ButtonFeed from '../components/ButtonFeed';
 // import { connect } from 'react-redux';
 import { setOnLocalStorage } from '../services/helpers/localStorage';
 
@@ -18,11 +21,11 @@ class Feedback extends Component {
   }
 
   renderFinalMessage() {
-    const { score } = this.props;
+    const { assertions } = this.props;
     const minimumScore = 3;
-    return (score >= minimumScore)
+    return (assertions >= minimumScore)
       ? 'Mandou bem!'
-      : 'Podia ser melhor';
+      : 'Podia ser melhor...';
   }
 
   render() {
@@ -33,7 +36,9 @@ class Feedback extends Component {
           <h1 data-testid="feedback-text">
             {this.renderFinalMessage()}
           </h1>
+          <FeedbackMessage />
           <BtnRanking />
+          <ButtonFeed />
         </div>
       </>
     );
@@ -41,23 +46,19 @@ class Feedback extends Component {
 }
 
 Feedback.propTypes = {
-  score: PropTypes.number,
+  assertions: PropTypes.number,
 };
 
 Feedback.defaultProps = {
-  score: 0,
+  assertions: 0,
 };
 
-// Esperando o estado existir
-// const mapStateToProps = (state) => ({
-//   score: state.algumReducer.score,
-// });
+const mapStateToProps = (state) => ({
+  assertions: state.questReducer.assertions,
+});
 
 // const mapDispatchToProps = {
 
 // };
 
-// Esperando o estado existir
-// export default connect(mapStateToProps, mapDispatchToProps)(Feedback);
-
-export default Feedback;
+export default connect(mapStateToProps)(Feedback);

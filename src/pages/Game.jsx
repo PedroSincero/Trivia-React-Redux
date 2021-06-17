@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import '../style/Game.css';
-import { fetchQuestions, updateId, resetTimer, updatePoints } from '../redux/actions';
+import {
+  fetchQuestions,
+  updateId, resetTimer, updatePoints, totalScore } from '../redux/actions';
 import { updateLocalStorage } from '../services/helpers/localStorage';
 import Cronometer from '../components/Cronometer';
 
@@ -70,10 +72,11 @@ class Game extends Component {
     const { answered } = this.state;
     if (answered) return;
     if (isCorrect) {
-      const { updtPoints } = this.props;
+      const { updtPoints, addScore, assertions } = this.props;
       const score = this.doCalculation();
-      updateLocalStorage('state', { player: { score } });
+      updateLocalStorage('state', { player: { score, assertions: assertions + 1 } });
       updtPoints(score);
+      addScore(score);
     }
     this.setState({ answered: true, nextButton: true });
   }
@@ -189,6 +192,7 @@ const mapStateToProps = (state) => ({
   isLoading: state.questReducer.loading,
   idAPI: state.questReducer.id,
   timer: state.questReducer.timer,
+  assertions: state.questReducer.assertions,
   // nameUser: state.userReducer.user,
   // email: state.userReducer.email,
 });
@@ -198,6 +202,7 @@ const mapDispatchToProps = (dispatch) => ({
   setNextQuestion: (newId) => dispatch(updateId(newId)),
   timerReset: () => dispatch(resetTimer()),
   updtPoints: (score) => dispatch(updatePoints(score)),
+  addScore: (score) => dispatch(totalScore(score)),
 });
 
 Game.propTypes = {
@@ -208,10 +213,12 @@ Game.propTypes = {
   timer: PropTypes.number.isRequired,
   setNextQuestion: PropTypes.func.isRequired,
   timerReset: PropTypes.func.isRequired,
+  assertions: PropTypes.number.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
   updtPoints: PropTypes.func.isRequired,
+  addScore: PropTypes.func.isRequired,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
