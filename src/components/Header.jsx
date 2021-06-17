@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import getAvatar from '../services/helpers/getAvatar';
 import { addImage } from '../redux/actions';
+// import { getFromLocalStorage } from '../services/helpers/localStorage';
 
 class Header extends Component {
   // Recebe um email como props do estado global e pega o avatar desse email
@@ -13,7 +14,8 @@ class Header extends Component {
   }
 
   render() {
-    const { username, imgUrl } = this.props;
+    const { username, imgUrl, score } = this.props;
+
     return (
       <div className="header">
         <img
@@ -28,7 +30,7 @@ class Header extends Component {
         >
           {username}
         </p>
-        <p data-testid="header-score">0</p>
+        <p data-testid="header-score">{score}</p>
       </div>
     );
   }
@@ -39,6 +41,7 @@ Header.propTypes = {
   username: PropTypes.string,
   imgUrl: PropTypes.string,
   updateUrlImg: PropTypes.func.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 Header.defaultProps = {
@@ -51,6 +54,7 @@ const mapStateToProps = (state) => ({
   imgUrl: state.userReducer.picture,
   username: state.userReducer.user,
   email: state.userReducer.email,
+  score: state.questReducer.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({

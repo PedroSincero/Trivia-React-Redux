@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import '../style/Game.css';
-import { fetchQuestions, updateId, resetTimer } from '../redux/actions';
+import { fetchQuestions, updateId, resetTimer, updatePoints } from '../redux/actions';
 import { updateLocalStorage } from '../services/helpers/localStorage';
 import Cronometer from '../components/Cronometer';
 
@@ -71,8 +71,10 @@ class Game extends Component {
     if (answered) return;
     console.log(isCorrect);
     if (isCorrect) {
+      const { updtPoints } = this.props;
       const score = this.doCalculation();
       updateLocalStorage('state', { player: { score } });
+      updtPoints(score);
     }
     this.setState({ answered: true, nextButton: true });
   }
@@ -100,7 +102,7 @@ class Game extends Component {
     default:
       points = 1;
     }
-    return staticPoint + points * timer;
+    return staticPoint + (points * timer);
   }
 
   handleCorrectAnswer(correct) {
@@ -196,6 +198,7 @@ const mapDispatchToProps = (dispatch) => ({
   questTrivia: () => dispatch(fetchQuestions()),
   setNextQuestion: (newId) => dispatch(updateId(newId)),
   timerReset: () => dispatch(resetTimer()),
+  updtPoints: (score) => dispatch(updatePoints(score)),
 });
 
 Game.propTypes = {
@@ -209,6 +212,7 @@ Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  updtPoints: PropTypes.func.isRequired,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
