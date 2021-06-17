@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import BtnRanking from '../components/Buttons';
 // import { connect } from 'react-redux';
 
 class Feedback extends Component {
@@ -6,6 +7,8 @@ class Feedback extends Component {
     return (
       <div>
         <h1 data-testid="feedback-text">Feedback</h1>
+
+        <BtnRanking />
       </div>
     );
   }
