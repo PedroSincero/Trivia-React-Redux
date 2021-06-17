@@ -5,16 +5,7 @@ import getAvatar from '../services/helpers/getAvatar';
 import { addImage } from '../redux/actions';
 // import { getFromLocalStorage } from '../services/helpers/localStorage';
 
-const INITIAL_STATE = {
-  score: 0,
-};
-
 class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = INITIAL_STATE;
-  }
-
   // Recebe um email como props do estado global e pega o avatar desse email
   componentDidMount() {
     const { email, updateUrlImg } = this.props;
@@ -22,21 +13,9 @@ class Header extends Component {
     updateUrlImg(imgUrl);
   }
 
-  componentDidUpdate() {
-    // const returnedData = getFromLocalStorage('state');
-    // if (returnedData) {
-    //   const { player: { score } } = returnedData;
-    //   this.updateScore(score);
-    // }
-  }
-
-  updateScore(score) {
-    this.setState({ score });
-  }
-
   render() {
-    const { username, imgUrl } = this.props;
-    const { score } = this.state;
+    const { username, imgUrl, score } = this.props;
+
     return (
       <div className="header">
         <img
@@ -62,6 +41,7 @@ Header.propTypes = {
   username: PropTypes.string,
   imgUrl: PropTypes.string,
   updateUrlImg: PropTypes.func.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 Header.defaultProps = {
@@ -74,6 +54,7 @@ const mapStateToProps = (state) => ({
   imgUrl: state.userReducer.picture,
   username: state.userReducer.user,
   email: state.userReducer.email,
+  score: state.questReducer.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({
