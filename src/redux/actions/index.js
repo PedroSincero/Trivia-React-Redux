@@ -6,6 +6,7 @@ export const REQUEST_API = 'REQUEST_API';
 export const RESET_TIMER = 'RESET_TIMER';
 export const SUBTRACT_TIMER = 'SUBTRACT_TIMER';
 export const UPDATE_ID = 'UPDATE_ID';
+export const UPDATE_POINTS = 'UPDATE_POINTS';
 
 export const getToken = (token) => ({
   type: ADD_TOKEN,
@@ -57,6 +58,11 @@ export const getQuestion = (question) => ({
 export const requestAPI = () => ({
   type: REQUEST_API,
   loading: true,
+});
+
+export const updatePoints = (score) => ({
+  type: UPDATE_POINTS,
+  score,
 });
 
 export function fetchQuestions() {
