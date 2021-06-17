@@ -3,6 +3,20 @@ import { Link } from 'react-router-dom';
 // import { connect } from 'react-redux';
 
 class Ranking extends Component {
+
+  // { this.saveInLocalStorage('pedrinho','100000','alo') }
+
+  // handlesort = () => {
+  //   const { listUsers } = this.props;
+  //   this.setState({
+  //     users: listUsers.sort((a, b) => {
+  //       if (a.nome < b.nome) return -1;
+  //       if (a.nome > b.nome) return 1;
+  //       return 0;
+  //     })
+  //   })
+  // }
+
   render() {
     return (
       <div>

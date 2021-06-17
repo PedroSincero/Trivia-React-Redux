@@ -3,11 +3,18 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import BtnRanking from '../components/Buttons';
 // import { connect } from 'react-redux';
+import { setOnLocalStorage } from '../services/helpers/localStorage';
 
 class Feedback extends Component {
   constructor(props) {
     super(props);
     this.renderFinalMessage = this.renderFinalMessage.bind(this);
+    this.saveInLocalStorage = this.saveInLocalStorage.bind(this);
+  }
+
+  saveInLocalStorage(name, score, picture) {
+    const infoRanking = [{ name, score, picture }];
+    setOnLocalStorage('ranking', infoRanking);
   }
 
   renderFinalMessage() {

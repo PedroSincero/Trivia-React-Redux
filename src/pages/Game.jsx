@@ -69,7 +69,6 @@ class Game extends Component {
   checkAnswer(isCorrect) {
     const { answered } = this.state;
     if (answered) return;
-    console.log(isCorrect);
     if (isCorrect) {
       const { updtPoints } = this.props;
       const score = this.doCalculation();
