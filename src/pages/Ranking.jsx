@@ -4,7 +4,12 @@ import React, { Component } from 'react';
 class Ranking extends Component {
   render() {
     return (
-      <div />
+      <div>
+        <section data-testid="ranking-title">
+          Titulo
+        </section>
+        <button type="button">INICIO</button>
+      </div>
     );
   }
 }
