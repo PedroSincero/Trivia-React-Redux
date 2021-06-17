@@ -45,10 +45,10 @@ class FeedbackMessage extends Component {
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   score: state.algumReducer.score,
-//   assertions: state.algumReducer.assertions,
-// });
+const mapStateToProps = (state) => ({
+  score: state.requestReducer.score,
+  assertions: state.requestReducer.assertions,
+});
 
 FeedbackMessage.propTypes = {
   score: PropTypes.number,
@@ -66,6 +66,4 @@ FeedbackMessage.defaultProps = {
 // })
 
 // Esperando existir
-// export default connect(mapStateToProps, mapDispatchToProps)(FeedbackMessage)
-
-export default FeedbackMessage;
+export default connect(mapStateToProps)(FeedbackMessage);
