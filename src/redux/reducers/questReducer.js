@@ -1,4 +1,5 @@
-import { ADD_QUESTION, REQUEST_API, SUBTRACT_TIMER, RESET_TIMER } from '../actions';
+import {
+  ADD_QUESTION, REQUEST_API, SUBTRACT_TIMER, RESET_TIMER, UPDATE_ID } from '../actions';
 
 export const INITIAL_STATE = {
   question: '',
@@ -28,6 +29,8 @@ export function questReducer(state = INITIAL_STATE, action) {
       ...state,
       timer: 30,
     };
+  case UPDATE_ID:
+    return { ...state, id: action.id };
   default:
     return state;
   }

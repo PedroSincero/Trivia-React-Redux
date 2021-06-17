@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import '../style/Game.css';
-import { fetchQuestions } from '../redux/actions';
+import { fetchQuestions, updateId, resetTimer } from '../redux/actions';
 import { updateLocalStorage } from '../services/helpers/localStorage';
 import Cronometer from '../components/Cronometer';
-import BtnRanking from '../components/Buttons';
 
 const INITIAL_STATE = {
   answered: false,
@@ -22,19 +21,37 @@ class Game extends Component {
     this.randomArray = this.randomArray.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
     this.checkDisabled = this.checkDisabled.bind(this);
-    this.reloadPage = this.reloadPage.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
     this.handleButton = this.handleButton.bind(this);
+    this.teste = this.teste.bind(this);
   }
 
   async componentDidMount() {
+    // const { questTrivia } = this.props;
+    // const { score, assertions } = this.state;
+    // await questTrivia();
+    // updateLocalStorage('state', { player: { score, assertions } });
+    this.teste();
+  }
+
+  async teste() {
     const { questTrivia } = this.props;
     const { score, assertions } = this.state;
     await questTrivia();
     updateLocalStorage('state', { player: { score, assertions } });
   }
 
-  reloadPage() {
-    window.location.reload();
+  nextQuestion() {
+    const { idAPI, setNextQuestion, timerReset, history } = this.props;
+    const FOUR = 4;
+    if (idAPI < FOUR) {
+      setNextQuestion(idAPI + 1);
+      this.setState({ answered: false });
+      timerReset();
+      this.setState({ isDisabled: false, nextButton: false });
+    } else {
+      history.push('/feedback');
+    }
   }
 
   randomArray(arr) {
@@ -83,10 +100,7 @@ class Game extends Component {
     default:
       points = 1;
     }
-    console.log(staticPoint);
-    console.log(points);
-    console.log(timer);
-    return staticPoint + (points * timer);
+    return staticPoint + points * timer;
   }
 
   handleCorrectAnswer(correct) {
@@ -122,7 +136,13 @@ class Game extends Component {
 
   handleButton() {
     return (
-      <button type="button" data-testid="btn-next" onClick={ this.reloadPage }>
+      <button
+        type="button"
+        data-testid="btn-next"
+        onClick={ () => {
+          this.nextQuestion();
+        } }
+      >
         Próxima
       </button>
     );
@@ -138,7 +158,8 @@ class Game extends Component {
         category,
         question,
         correct_answer: correctAnswer,
-        incorrect_answers: incorrectAnswers } = questAPI[idAPI];
+        incorrect_answers: incorrectAnswers,
+      } = questAPI[idAPI];
       const correct = this.handleCorrectAnswer(correctAnswer);
       const incorrect = this.handleIncorrectAnswer(incorrectAnswers);
       const answers = [correct, ...incorrect];
@@ -146,30 +167,19 @@ class Game extends Component {
       return (
         <div>
           <Header />
-          <h2 data-testid="question-category">
-            {category}
-          </h2>
-          <h3 data-testid="question-text">
-            {question}
-          </h3>
-          <section>
-            {randomAnswers}
-          </section>
+          <h2 data-testid="question-category">{category}</h2>
+          <h3 data-testid="question-text">{question}</h3>
+          <section>{randomAnswers}</section>
           <Cronometer
             answered={ answered }
             disabled={ this.checkDisabled }
             checkAnswer={ this.checkAnswer }
           />
           {nextButton && this.handleButton()}
-          <BtnRanking />
         </div>
       );
     }
-    return (
-      <h1>
-        Loading...
-      </h1>
-    );
+    return <h1>Loading...</h1>;
   }
 }
 
@@ -184,6 +194,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   questTrivia: () => dispatch(fetchQuestions()),
+  setNextQuestion: (newId) => dispatch(updateId(newId)),
+  timerReset: () => dispatch(resetTimer()),
 });
 
 Game.propTypes = {
@@ -192,6 +204,11 @@ Game.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   idAPI: PropTypes.func.isRequired,
   timer: PropTypes.number.isRequired,
+  setNextQuestion: PropTypes.func.isRequired,
+  timerReset: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
