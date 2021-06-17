@@ -10,7 +10,7 @@ class Ranking extends Component {
           Titulo
         </section>
         <Link to="/">
-          <button type="button" data-testid="btn-ranking">
+          <button type="button" data-testid="btn-go-home">
             Inicio
           </button>
         </Link>
