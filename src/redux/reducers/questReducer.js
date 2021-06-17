@@ -53,6 +53,7 @@ export function questReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       totalScore: state.totalScore + action.score,
+      assertions: state.assertions + 1,
     };
   default:
     return state;

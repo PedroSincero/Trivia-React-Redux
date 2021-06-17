@@ -73,10 +73,11 @@ class Game extends Component {
     if (answered) return;
     console.log(isCorrect);
     if (isCorrect) {
-      const { updtPoints, addScore, assertions } = this.props;
+      const { addScore, assertions, summedScore } = this.props;
       const score = this.doCalculation();
-      updateLocalStorage('state', { player: { score, assertions: assertions + 1 } });
-      updtPoints(score);
+      const updatedScore = score + summedScore;
+      updateLocalStorage('state',
+        { player: { score: updatedScore, assertions: assertions + 1 } });
       addScore(score);
     }
     this.setState({ answered: true, nextButton: true });
@@ -194,6 +195,7 @@ const mapStateToProps = (state) => ({
   idAPI: state.questReducer.id,
   timer: state.questReducer.timer,
   assertions: state.questReducer.assertions,
+  summedScore: state.questReducer.totalScore,
   // nameUser: state.userReducer.user,
   // email: state.userReducer.email,
 });
@@ -215,10 +217,10 @@ Game.propTypes = {
   setNextQuestion: PropTypes.func.isRequired,
   timerReset: PropTypes.func.isRequired,
   assertions: PropTypes.number.isRequired,
+  summedScore: PropTypes.number.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  updtPoints: PropTypes.func.isRequired,
   addScore: PropTypes.func.isRequired,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
