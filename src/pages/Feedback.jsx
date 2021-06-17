@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import BtnRanking from '../components/Buttons';
 // import { connect } from 'react-redux';
 
 class Feedback extends Component {
@@ -23,6 +24,8 @@ class Feedback extends Component {
         >
           Jogar novamente
         </button>
+        <h1 data-testid="feedback-text">Feedback</h1>
+        <BtnRanking />
       </div>
     );
   }

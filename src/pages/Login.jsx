@@ -81,7 +81,6 @@ class Login extends Component {
               Configurações
             </button>
           </Link>
-
         </form>
       </div>
     );
