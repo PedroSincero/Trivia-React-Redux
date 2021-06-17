@@ -6,7 +6,8 @@ import '../style/Game.css';
 import {
   fetchQuestions,
   updateId, resetTimer, updatePoints, totalScore } from '../redux/actions';
-import { updateLocalStorage } from '../services/helpers/localStorage';
+import { updateLocalStorage, setOnLocalStorage,
+  getFromLocalStorage } from '../services/helpers/localStorage';
 import Cronometer from '../components/Cronometer';
 
 const INITIAL_STATE = {
@@ -44,7 +45,8 @@ class Game extends Component {
   }
 
   nextQuestion() {
-    const { idAPI, setNextQuestion, timerReset, history, nameUser, picture, totalScore } = this.props;
+    const { idAPI, setNextQuestion,
+      timerReset, history, nameUser, picture, summedScore } = this.props;
     const FOUR = 4;
     if (idAPI < FOUR) {
       setNextQuestion(idAPI + 1);
@@ -52,8 +54,14 @@ class Game extends Component {
       timerReset();
       this.setState({ isDisabled: false, nextButton: false });
     } else {
-      const infoRanking = [{ nameUser, totalScore, picture }];
-      setOnLocalStorage('ranking', infoRanking);
+      const infoRanking = [{ nameUser, summedScore, picture }];
+      const arrayStorage = getFromLocalStorage('ranking');
+      if (arrayStorage) {
+        setOnLocalStorage('ranking', [...arrayStorage, ...infoRanking]);
+      } else {
+        setOnLocalStorage('ranking', infoRanking);
+      }
+
       history.push('/feedback');
     }
   }
@@ -198,7 +206,7 @@ const mapStateToProps = (state) => ({
   nameUser: state.userReducer.user,
   email: state.userReducer.email,
   picture: state.userReducer.picture,
-  totalScore: state.questReducer.totalScore,
+  summedScore: state.questReducer.totalScore,
 });
 
 const mapDispatchToProps = (dispatch) => ({

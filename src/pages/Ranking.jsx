@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // import { connect } from 'react-redux';
-// import { setOnLocalStorage } from '../services/helpers/localStorage';
+import { getFromLocalStorage } from '../services/helpers/localStorage';
 
 class Ranking extends Component {
+  constructor(props) {
+    super(props);
+    this.handlesort = this.handlesort.bind(this);
+  }
 
-  // handlesort = () => {
-  //   const { listUsers } = this.props;
-  //   this.setState({
-  //     users: listUsers.sort((a, b) => {
-  //       if (a.nome < b.nome) return -1;
-  //       if (a.nome > b.nome) return 1;
-  //       return 0;
-  //     })
-  //   })
-  // }
+  handlesort() {
+    const scoreRanking = getFromLocalStorage('ranking');
+    scoreRanking.sort((a, b) => {
+      if (a.nome < b.nome) return -1;
+      if (a.nome > b.nome) return 1;
+      return 0;
+    });
+  }
 
   render() {
     return (

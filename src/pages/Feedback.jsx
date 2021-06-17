@@ -11,7 +11,6 @@ class Feedback extends Component {
   constructor(props) {
     super(props);
     this.renderFinalMessage = this.renderFinalMessage.bind(this);
-    this.saveInLocalStorage = this.saveInLocalStorage.bind(this);
   }
 
   renderFinalMessage() {
