@@ -5,6 +5,7 @@ export const ADD_QUESTION = 'ADD_QUESTION';
 export const REQUEST_API = 'REQUEST_API';
 export const RESET_TIMER = 'RESET_TIMER';
 export const SUBTRACT_TIMER = 'SUBTRACT_TIMER';
+export const UPDATE_ID = 'UPDATE_ID';
 
 export const getToken = (token) => ({
   type: ADD_TOKEN,
@@ -29,6 +30,11 @@ export const fetchToken = () => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const updateId = (id) => ({
+  type: UPDATE_ID,
+  id,
+});
 
 // Recebe uma url de imagem para o avatar
 export const addImage = (img) => ({
