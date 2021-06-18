@@ -2,10 +2,10 @@ import {
   ADD_QUESTION,
   REQUEST_API,
   SUBTRACT_TIMER,
-  RESET_TIMER,
   UPDATE_ID,
   UPDATE_POINTS,
-  TOTAL_SCORE } from '../actions';
+  TOTAL_SCORE,
+  RESET_SOMETHING } from '../actions';
 
 export const INITIAL_STATE = {
   question: '',
@@ -18,7 +18,7 @@ export const INITIAL_STATE = {
 };
 
 export function questReducer(state = INITIAL_STATE, action) {
-  console.log(state.assertions);
+  console.log(action.payload);
   switch (action.type) {
   case REQUEST_API:
     return { ...state,
@@ -34,10 +34,10 @@ export function questReducer(state = INITIAL_STATE, action) {
     return { ...state,
       timer: action.timer,
     };
-  case RESET_TIMER:
+  case RESET_SOMETHING:
     return {
       ...state,
-      timer: 30,
+      ...action.payload,
     };
   case UPDATE_ID:
     return { ...state, id: action.id };
@@ -48,7 +48,6 @@ export function questReducer(state = INITIAL_STATE, action) {
       score: action.score,
       assertions: state.assertions + 1,
     };
-
   case TOTAL_SCORE:
     return {
       ...state,

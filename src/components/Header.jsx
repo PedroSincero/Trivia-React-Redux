@@ -22,7 +22,7 @@ class Header extends Component {
           data-testid="header-profile-picture"
           className="header__avatar"
           src={ imgUrl }
-          alt="avatar of xxx"
+          alt={ `avatar of ${username}` }
         />
         <p
           data-testid="header-player-name"

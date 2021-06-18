@@ -8,6 +8,7 @@ export const SUBTRACT_TIMER = 'SUBTRACT_TIMER';
 export const UPDATE_ID = 'UPDATE_ID';
 export const UPDATE_POINTS = 'UPDATE_POINTS';
 export const TOTAL_SCORE = 'TOTAL_SCORE';
+export const RESET_SOMETHING = 'RESET_SOMETHING';
 
 export const getToken = (token) => ({
   type: ADD_TOKEN,
@@ -19,8 +20,9 @@ export const subtractTimer = (timer) => ({
   timer,
 });
 
-export const resetTimer = () => ({
-  type: RESET_TIMER,
+export const resetSomething = (something) => ({
+  type: RESET_SOMETHING,
+  payload: something,
 });
 
 export const fetchToken = () => async (dispatch) => {

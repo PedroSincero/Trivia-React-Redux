@@ -32,6 +32,10 @@ class Cronometer extends Component {
     }
   }
 
+  componentWillUnmount() {
+    clearInterval(this.cronometerInterval);
+  }
+
   startTimer() {
     const ONE_SECOND = 1000;
     this.cronometerInterval = setInterval(() => {
