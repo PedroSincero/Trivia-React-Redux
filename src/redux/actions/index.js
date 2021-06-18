@@ -1,3 +1,5 @@
+import randomize from '../../services/helpers/randomizeRes';
+
 export const ADD_TOKEN = 'GET_TOKEN';
 export const ADD_IMG_URL = 'ADD_IMG_URL';
 export const ADD_USER_INFO = 'ADD_USER_INFO';
@@ -80,7 +82,8 @@ export function fetchQuestions() {
       const localToken = localStorage.getItem('token');
       const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${localToken}`);
       const data = await response.json();
-      dispatch(getQuestion(data.results));
+      const newData = randomize(data);
+      dispatch(getQuestion(newData));
     } catch (error) {
       console.log(error);
     }

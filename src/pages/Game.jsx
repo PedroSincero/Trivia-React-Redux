@@ -21,23 +21,18 @@ class Game extends Component {
   constructor(props) {
     super(props);
     this.state = INITIAL_STATE;
-    this.randomArray = this.randomArray.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
     this.checkDisabled = this.checkDisabled.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleButton = this.handleButton.bind(this);
-    this.teste = this.teste.bind(this);
+    this.getQuestion = this.getQuestion.bind(this);
   }
 
   async componentDidMount() {
-    // const { questTrivia } = this.props;
-    // const { score, assertions } = this.state;
-    // await questTrivia();
-    // updateLocalStorage('state', { player: { score, assertions } });
-    this.teste();
+    this.getQuestion();
   }
 
-  async teste() {
+  async getQuestion() {
     const { questTrivia } = this.props;
     const { score, assertions } = this.state;
     await questTrivia();
@@ -63,18 +58,6 @@ class Game extends Component {
       }
       history.push('/feedback');
     }
-  }
-
-  randomArray(arr) {
-    // Loop em todos os elementos
-    for (let i = arr.length - 1; i > 0; i -= 1) {
-      // Escolhendo elemento aleatório
-      const j = Math.floor(Math.random() * (i + 1));
-      // Reposicionando elemento
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    // Retornando array com aleatoriedade
-    return arr;
   }
 
   checkAnswer(isCorrect) {
@@ -132,20 +115,19 @@ class Game extends Component {
     );
   }
 
-  handleIncorrectAnswer(incorrects) {
+  handleIncorrectAnswer(incorrect, index) {
     const { answered, isDisabled } = this.state;
-    return incorrects.map((incorrect, index) => (
+    return (
       <button
         type="button"
         onClick={ () => this.checkAnswer() }
-        key={ index }
         data-testid={ `wrong-answer-${index}` }
         className={ answered && 'incorrectAnswer' }
         disabled={ isDisabled }
       >
         {incorrect}
       </button>
-    ));
+    );
   }
 
   handleButton() {
@@ -162,28 +144,33 @@ class Game extends Component {
     );
   }
 
+  renderAlternatives() {
+    const { questAPI, idAPI } = this.props;
+    const {
+      randomAnswers,
+      incorrect_answers: incorrectAnswers,
+    } = questAPI[idAPI];
+    return randomAnswers.map((question, index) => {
+      if (incorrectAnswers.includes(question)) {
+        return this.handleIncorrectAnswer(question, index);
+      }
+      return this.handleCorrectAnswer(question);
+    });
+  }
+
   render() {
     const { isLoading } = this.props;
     const { nextButton } = this.state;
     if (!isLoading) {
       const { questAPI, idAPI } = this.props;
       const { answered } = this.state;
-      const {
-        category,
-        question,
-        correct_answer: correctAnswer,
-        incorrect_answers: incorrectAnswers,
-      } = questAPI[idAPI];
-      const correct = this.handleCorrectAnswer(correctAnswer);
-      const incorrect = this.handleIncorrectAnswer(incorrectAnswers);
-      const answers = [correct, ...incorrect];
-      const randomAnswers = this.randomArray(answers);
+      const { category, question } = questAPI[idAPI];
       return (
         <div>
           <Header />
           <h2 data-testid="question-category">{category}</h2>
           <h3 data-testid="question-text">{question}</h3>
-          <section>{randomAnswers}</section>
+          <section>{this.renderAlternatives()}</section>
           <Cronometer
             answered={ answered }
             disabled={ this.checkDisabled }
