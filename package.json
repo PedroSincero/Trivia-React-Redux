@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^5.8.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/user-event": "^7.1.2",
     "crypto-js": "^4.0.0",
@@ -19,8 +20,8 @@
     "cy": "cypress run",
     "cy:open": "cypress open",
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build": "craco build",
+    "test": "craco test",
     "test:watch": "react-scripts test --watchAll",
     "eject": "react-scripts eject",
     "test-coverage": "react-scripts test --coverage --watchAll=false",
@@ -45,6 +46,7 @@
   "devDependencies": {
     "@sheerun/mutationobserver-shim": "0.3.3",
     "@testing-library/react": "^9.5.0",
+    "autoprefixer": "^9.8.6",
     "cypress": "^3.7.0",
     "cypress-multi-reporters": "^1.4.0",
     "eslint": "6.8.0",
@@ -60,9 +62,11 @@
     "mochawesome": "^6.1.1",
     "mochawesome-merge": "^4.0.3",
     "mochawesome-report-generator": "^5.1.0",
+    "postcss": "^7.0.36",
     "stylelint": "^13.8.0",
     "stylelint-config-standard": "20.0.0",
-    "stylelint-order": "^4.1.0"
+    "stylelint-order": "^4.1.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.2"
   },
   "jest": {
     "coveragePathIgnorePatterns": [

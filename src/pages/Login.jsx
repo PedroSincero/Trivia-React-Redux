@@ -56,8 +56,8 @@ class Login extends Component {
   render() {
     const { name, email } = this.state;
     return (
-      <div>
-        <form>
+      <div className="flex justify-center">
+        <form className="flex justify-center">
           <input
             data-testid="input-player-name"
             name="name"
@@ -74,6 +74,7 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
           <button
+            className="ring-indigo-300"
             type="button"
             data-testid="btn-play"
             disabled={ this.verifyLogin() }
@@ -83,6 +84,7 @@ class Login extends Component {
           </button>
           <Link to="/config">
             <button
+              className="ring-indigo-300"
               type="button"
               data-testid="btn-settings"
             >
