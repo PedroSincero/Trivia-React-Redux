@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { addUserInfo, fetchToken } from '../redux/actions';
+import { addUserInfo, fetchToken, resetSomething } from '../redux/actions';
 import { setOnLocalStorage } from '../services/helpers/localStorage';
 
 class Login extends Component {
@@ -34,11 +34,19 @@ class Login extends Component {
 
   saveInLocalStorage() {
     const { email, name } = this.state;
-    const { setUserInfo, history, tokenUser } = this.props;
+    const { setUserInfo, history, tokenUser, somethingReset } = this.props;
 
     setUserInfo(name, email);
     const userInfo = { player: { name, gravatarEmail: email } };
     setOnLocalStorage('state', userInfo);
+
+    somethingReset({ id: 0,
+      timer: 30,
+      score: 0,
+      totalScore: 0,
+      assertions: 0,
+    });
+
     history.push('/game');
 
     const response = tokenUser.token;
@@ -94,6 +102,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   tokenAPI: () => dispatch(fetchToken()),
   setUserInfo: (username, email) => dispatch(addUserInfo(username, email)),
+  somethingReset: (something) => dispatch(resetSomething(something)),
 });
 
 Login.propTypes = {
@@ -103,6 +112,7 @@ Login.propTypes = {
   setUserInfo: PropTypes.func.isRequired,
   tokenUser: PropTypes.func.isRequired,
   tokenAPI: PropTypes.func.isRequired,
+  somethingReset: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import '../style/Game.css';
 import {
   fetchQuestions,
-  updateId, resetTimer, updatePoints, totalScore } from '../redux/actions';
+  updateId, updatePoints, totalScore, resetSomething } from '../redux/actions';
 import { updateLocalStorage, setOnLocalStorage,
   getFromLocalStorage } from '../services/helpers/localStorage';
 import Cronometer from '../components/Cronometer';
@@ -46,22 +46,21 @@ class Game extends Component {
 
   nextQuestion() {
     const { idAPI, setNextQuestion,
-      timerReset, history, nameUser, picture, summedScore } = this.props;
+      somethingReset, history, nameUser, picture, summedScore } = this.props;
     const FOUR = 4;
     if (idAPI < FOUR) {
       setNextQuestion(idAPI + 1);
       this.setState({ answered: false });
-      timerReset();
+      somethingReset({ timer: 30 });
       this.setState({ isDisabled: false, nextButton: false });
     } else {
-      const infoRanking = [{ nameUser, summedScore, picture }];
+      const infoRanking = [{ name: nameUser, score: summedScore, picture }];
       const arrayStorage = getFromLocalStorage('ranking');
       if (arrayStorage) {
         setOnLocalStorage('ranking', [...arrayStorage, ...infoRanking]);
       } else {
         setOnLocalStorage('ranking', infoRanking);
       }
-
       history.push('/feedback');
     }
   }
@@ -82,10 +81,11 @@ class Game extends Component {
     const { answered } = this.state;
     if (answered) return;
     if (isCorrect) {
-      const { updtPoints, addScore, assertions } = this.props;
+      const { addScore, assertions, summedScore } = this.props;
       const score = this.doCalculation();
-      updateLocalStorage('state', { player: { score, assertions: assertions + 1 } });
-      updtPoints(score);
+      const updatedScore = score + summedScore;
+      updateLocalStorage('state',
+        { player: { score: updatedScore, assertions: assertions + 1 } });
       addScore(score);
     }
     this.setState({ answered: true, nextButton: true });
@@ -212,7 +212,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   questTrivia: () => dispatch(fetchQuestions()),
   setNextQuestion: (newId) => dispatch(updateId(newId)),
-  timerReset: () => dispatch(resetTimer()),
+  somethingReset: (something) => dispatch(resetSomething(something)),
   updtPoints: (score) => dispatch(updatePoints(score)),
   addScore: (score) => dispatch(totalScore(score)),
 });
@@ -224,13 +224,15 @@ Game.propTypes = {
   idAPI: PropTypes.func.isRequired,
   timer: PropTypes.number.isRequired,
   setNextQuestion: PropTypes.func.isRequired,
-  timerReset: PropTypes.func.isRequired,
+  somethingReset: PropTypes.func.isRequired,
   assertions: PropTypes.number.isRequired,
+  summedScore: PropTypes.number.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  updtPoints: PropTypes.func.isRequired,
   addScore: PropTypes.func.isRequired,
+  nameUser: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
 

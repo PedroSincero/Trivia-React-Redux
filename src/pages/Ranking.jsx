@@ -11,11 +11,8 @@ class Ranking extends Component {
 
   handlesort() {
     const scoreRanking = getFromLocalStorage('ranking');
-    scoreRanking.sort((a, b) => {
-      if (a.nome < b.nome) return -1;
-      if (a.nome > b.nome) return 1;
-      return 0;
-    });
+    return scoreRanking
+      .sort((a, b) => (b.score - a.score));
   }
 
   render() {
@@ -29,6 +26,20 @@ class Ranking extends Component {
             Inicio
           </button>
         </Link>
+        <ul>
+          {this.handlesort().map((element, index) => {
+            const { name, score, picture } = element;
+            return (
+              <li key={ index }>
+                <span data-testid={ `player-score-${index}` }>{score}</span>
+                {' '}
+                <span data-testid={ `player-name-${index}` }>{name}</span>
+                {' '}
+                <img src={ picture } alt={ name } />
+              </li>);
+          })}
+        </ul>
+
       </div>
     );
   }
