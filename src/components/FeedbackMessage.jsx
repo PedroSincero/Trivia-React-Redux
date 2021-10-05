@@ -4,32 +4,6 @@ import { connect } from 'react-redux';
 
 class FeedbackMessage extends Component {
   messageFeedback(assertions) {
-    if (assertions === 1) {
-      return (
-        <p>
-          Você acertou
-          <span data-testid="feedback-total-question">
-            {' '}
-            {assertions}
-          </span>
-          {' '}
-          pergunta!
-        </p>
-      );
-    }
-    if (assertions > 1) {
-      return (
-        <p>
-          Você acertou
-          <span data-testid="feedback-total-question">
-            {' '}
-            {assertions}
-          </span>
-          {' '}
-          perguntas!
-        </p>
-      );
-    }
     return (
       <p>
         Você acertou
@@ -38,7 +12,7 @@ class FeedbackMessage extends Component {
           {assertions}
         </span>
         {' '}
-        perguntas!
+        pergunta!
       </p>
     );
   }
@@ -114,3 +88,5 @@ FeedbackMessage.defaultProps = {
 // })
 
 export default connect(mapStateToProps)(FeedbackMessage);
+
+// houve alterações referente as linhas 7, retirada dos IF do assert > 1 e do assert === 1
