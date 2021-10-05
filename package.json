@@ -1,7 +1,7 @@
 {
   "name": "trivia-test",
   "version": "0.1.0",
-  "homepage": "https://PedroSincero.github.io/projeto_trivia/",
+  "homepage": "https://pedrosincero.github.io/Trivia-React-Redux/",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.2",
