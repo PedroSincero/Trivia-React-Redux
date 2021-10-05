@@ -11,6 +11,7 @@ export const UPDATE_ID = 'UPDATE_ID';
 export const UPDATE_POINTS = 'UPDATE_POINTS';
 export const TOTAL_SCORE = 'TOTAL_SCORE';
 export const RESET_SOMETHING = 'RESET_SOMETHING';
+export const CHANGE_CONFIG = 'CHANGE_CONFIG';
 
 export const getToken = (token) => ({
   type: ADD_TOKEN,
@@ -75,12 +76,20 @@ export const totalScore = (score) => ({
   score,
 });
 
-export function fetchQuestions() {
+export const changeConfig = (value, name) => ({
+  type: CHANGE_CONFIG,
+  payload: { value, name },
+});
+
+export function fetchQuestions({ category, difficulty, type }) {
+  const catConfig = category === 'any' ? '' : `category=${category}&`;
+  const difConfig = difficulty === 'any' ? '' : `difficulty=${difficulty}&`;
+  const typeConfig = type === 'any' ? '' : `type=${type}&`;
   return async (dispatch) => {
     try {
       dispatch(requestAPI());
       const localToken = localStorage.getItem('token');
-      const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${localToken}`);
+      const response = await fetch(`https://opentdb.com/api.php?amount=5&${catConfig}${difConfig}${typeConfig}encode=base64&token=${localToken}`);
       const data = await response.json();
       const newData = randomize(data);
       dispatch(getQuestion(newData));

@@ -1,0 +1,47 @@
+
+.login__button-effects {
+  transition: transform 0.2s;
+}
+.login__button-effects:hover {
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+}
+
+.login__control {
+  position: relative;
+}
+
+.login__input {
+ 
+}
+
+
+.login__input::placeholder {
+  color:transparent
+}
+
+.login__input:placeholder-shown + .login__label {
+  top: 0.1em;
+  font-size: 1em;
+  cursor: text;
+  color: #A9A9A9;
+}
+
+.login__label {
+  position:absolute;
+  top: -1.3em;
+  left: 0.4em;
+  display: block;
+  transition: 0.2s;
+  font-size: 0.8em;
+  color: black;
+}
+
+.login__input:focus + .login__label {
+  top:-1.3em;
+  left: 0.4em;
+  transition: 0.2s;
+  color:black;
+  font-size: 0.8em;
+  font-weight: 600;
+}

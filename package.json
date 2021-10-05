@@ -1,17 +1,19 @@
 {
   "name": "trivia-test",
   "version": "0.1.0",
+  "homepage": "https://PedroSincero.github.io/projeto_trivia/",
   "private": true,
   "dependencies": {
-    "@craco/craco": "^5.8.0",
+    "@craco/craco": "^6.1.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/user-event": "^7.1.2",
     "crypto-js": "^4.0.0",
+    "eslint": "^7.29.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^4.0.3",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0"
@@ -19,14 +21,16 @@
   "scripts": {
     "cy": "cypress run",
     "cy:open": "cypress open",
-    "start": "react-scripts start",
+    "start": "craco start",
     "build": "craco build",
     "test": "craco test",
     "test:watch": "react-scripts test --watchAll",
     "eject": "react-scripts eject",
     "test-coverage": "react-scripts test --coverage --watchAll=false",
     "lint:styles": "npx stylelint '**/*.css'",
-    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js,.jsx"
+    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js,.jsx",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,7 +53,6 @@
     "autoprefixer": "^9.8.6",
     "cypress": "^3.7.0",
     "cypress-multi-reporters": "^1.4.0",
-    "eslint": "6.8.0",
     "eslint-config-airbnb": "18.2.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsx-a11y": "6.4.1",
@@ -57,6 +60,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "eslint-plugin-react-redux": "3.3.0",
     "eslint-plugin-sonarjs": "0.5.0",
+    "gh-pages": "^3.2.3",
     "jest-localstorage-mock": "2.4.3",
     "mocha": "^7.2.0",
     "mochawesome": "^6.1.1",

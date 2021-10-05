@@ -9,3 +9,11 @@
 .incorrectAnswer {
   border: 3px solid red;
 }
+
+.game__body {
+  height: calc(100vh - (82.28px + 40px))
+}
+
+.porcentagem{
+  width: 33%
+}

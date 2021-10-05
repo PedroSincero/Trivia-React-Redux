@@ -49,7 +49,7 @@ class Cronometer extends Component {
     const { timer } = this.props;
     return (
       <div>
-        <p>
+        <p className="text-5xl text-gray-50">
           {timer}
         </p>
       </div>

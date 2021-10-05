@@ -1,3 +1,7 @@
 src/App.test.js
+src/pages/*
 src/serviceWorker.js 
+src/components/*
+src/style
+src/
 cypress/*

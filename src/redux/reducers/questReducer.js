@@ -18,7 +18,6 @@ export const INITIAL_STATE = {
 };
 
 export function questReducer(state = INITIAL_STATE, action) {
-  console.log(action.payload);
   switch (action.type) {
   case REQUEST_API:
     return { ...state,

@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-// import { connect } from 'react-redux';
-
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 class ButtonFeed extends Component {
   constructor() {
     super();
@@ -25,25 +23,16 @@ class ButtonFeed extends Component {
         <button
           type="button"
           data-testid="btn-play-again"
-          onClick={ this.redirectLogin }
+          onClick={this.redirectLogin}
+          className="border border-gray-700 bg-gray-700 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline"
         >
-          Jogar novamente
+          Play Again
         </button>
-        { redirect && <Redirect /> }
+        {redirect && <Redirect />}
       </div>
     );
   }
 }
-
-// const mapStateToProps = (state) => ({
-
-// });
-
-// const mapDispatchToProps = {
-
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Feedback);
 
 ButtonFeed.propTypes = {
   history: PropTypes.shape({

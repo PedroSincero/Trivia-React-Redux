@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+const accept = (assertion) => (
+  <p>
+    Você acertou
+    <span data-testid="feedback-total-question">
+      {' '}
+      {assertion}
+    </span>
+    {' '}
+    pergunta!
+  </p>
+);
 class FeedbackMessage extends Component {
   messageFeedback(assertions) {
     if (assertions === 1) {
-      return (
-        <p>
-          Você acertou
-          <span data-testid="feedback-total-question">
-            {' '}
-            {assertions}
-          </span>
-          {' '}
-          pergunta!
-        </p>
-      );
+      return accept(assertions);
     }
     if (assertions > 1) {
       return (
@@ -30,17 +31,8 @@ class FeedbackMessage extends Component {
         </p>
       );
     }
-    return (
-      <p>
-        Você acertou
-        <span data-testid="feedback-total-question">
-          {' '}
-          {assertions}
-        </span>
-        {' '}
-        perguntas!
-      </p>
-    );
+
+    return accept(assertions);
   }
 
   messageScore(score) {
@@ -72,14 +64,11 @@ class FeedbackMessage extends Component {
 
   RenderFeedbackMessage() {
     const { assertions, summedScore } = this.props;
-    console.log(assertions);
-    // const scoreMessage = this.messageScore(score);
-    // const assertionMessage = this.messageFeedback(assertions);
     return (
-      <>
-        <p data-testid="feedback-total-score">{summedScore}</p>
-        <p data-testid="feedback-total-question">{assertions}</p>
-      </>
+      <div className="flex justify-center ">
+        <p data-testid="feedback-total-score" className="p-16">{` Score ${summedScore}`}</p>
+        <p data-testid="feedback-total-question" className="p-16">{` Assertions ${assertions}`}</p>
+      </div>
     );
   }
 
@@ -107,10 +96,5 @@ FeedbackMessage.defaultProps = {
   summedScore: 0,
   assertions: 0,
 };
-
-// Esperando existir
-// const mapDispatchToProps = (dispatch) => ({
-//   algo: () => dispatch(algo())
-// })
 
 export default connect(mapStateToProps)(FeedbackMessage);

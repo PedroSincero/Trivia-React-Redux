@@ -1,3 +1,26 @@
 @tailwind base;
+
 @tailwind components;
+
 @tailwind utilities;
+
+.root,
+#root,
+#docs-root {
+  --primary_color: #f2e529;
+  --secundary_color: #0d0d0d;
+  --yellow_dead_color: #d9cc1e;
+  --light_gray_color: #a9a9a9;
+  --orange_color: #ffa505;
+  --red_color: #f56565;
+  --green_color: #48bb78;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffa505;
+  border-radius: 10px;
+}
